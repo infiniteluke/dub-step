@@ -22,7 +22,7 @@ dub-step simply manages the state needed to power a carousel, slideshow, photo g
 
 ## Installation
 
-This module is distributed via [npm][npm] which is bundled with [node][node] and
+This module is distributed via [npm](https://www.npmjs.com/package/dub-step) which is bundled with [node](https://nodejs.org) and
 should be installed as one of your project's `dependencies`:
 
 ```
@@ -104,7 +104,7 @@ function App() {
   return (
     <BasicSlideshow
       slides={DOGE_PICS}
-      onChange={currentIdex => console.log(currentIdex)}
+      onChange={currentIndex => console.log(currentIndex)}
     />
   )
 }
@@ -126,7 +126,7 @@ dub-step manages its own state internally and calls your `onChange`/`OnPlay`/`On
 However, if more control is needed, you can pass any of these pieces of state as a prop (as indicated above) and that state becomes controlled. As soon as `this.props[controllableStatePropKey] !== undefined`, internally, dub-step will determine its state based on your prop's value rather than its own internal state. You will be required to keep the state up to date, but you can also control the state from anywhere, be that state from other components, redux, react-router, or anywhere else.
 
 ## Child Callback Function
-This is where you render whatever you want to based on the state of downshift. The function is passed as the child prop:
+This is where you render whatever you want to based on the state of dub-step. The function is passed as the child prop:
 ```jsx
 <DubStep>
   {({/* parameters here */}) => (/* your render code here*/)}
@@ -148,9 +148,9 @@ These are not yet available on github. But check out the codesandbox until they 
 
 This package is also inspired by work I rubber-ducked with [flip](https://github.com/flipactual/) for managing focus in a TV Shelf UI.
 
-Much of the swipe code was lifted from [react-slick](https://github.com/akiran/react-slick/) by [akiran](https://github.com/akiran) a very solid solution for swipe friently carousels.
+Much of the swipe code was lifted from [react-slick](https://github.com/akiran/react-slick/) by [akiran](https://github.com/akiran) a very solid solution for swipe friendly carousels.
 
-There is no lack of carousel libraries out there. Many of which I looked at while writting this package. I hope dub-step represents a move towards an unopinionated solution that enables design and development to work together not against each other.
+There is no lack of carousel libraries out there. I looked at many of them while writting this package. I hope dub-step represents a move towards an unopinionated solution that enables design and development to work together not against each other.
 
 Check out other solutions on [npm](https://www.npmjs.com/search?q=carousel%20swipe%20react&page=1&ranking=optimal).
 
