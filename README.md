@@ -108,7 +108,7 @@ function App() {
   )
 }
 ```
-Builds...
+Builds...</br>
 ![simpleslideshow](https://user-images.githubusercontent.com/1127238/30525038-b6b6cd5a-9bb3-11e7-9699-cac9f0bed3d2.gif)
 
 In the example of above, the props returned by the get*ControlProps parameters empower any element in your UI to control the state of the slideshow. The index is used in coordination with a css transform/transition to animate the changing slides. 
@@ -140,6 +140,10 @@ See the [API Docs](https://infiniteluke.github.io/dub-step/#stateandhelpers) for
 These are not yet available on github. But check out the codesandbox until they are! Fork it and build your own examples then [tweet me](https://twitter.com/lukeherrington) about it!
 
 [![Edit dub-step Examples 🕺🏽](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/p5vr4pq897)
+
+Here are some of the existing examples:</br>
+![dub-step-examples](https://user-images.githubusercontent.com/1127238/30551187-8d947314-9c4e-11e7-8d73-7d5f131c36ca.gif)
+
 
 ## Credits
 
