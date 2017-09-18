@@ -117,7 +117,7 @@ In the example of above, the props returned by the get*ControlProps parameters e
 
 ## Props
 
-See the [API Docs]() for information on the props exposed by this package.
+See the [API Docs](https://infiniteluke.github.io/dub-step/#dubstepproptypes) for information on the props exposed by this package.
 
 ## Control Props
 
@@ -135,10 +135,12 @@ This is where you render whatever you want to based on the state of downshift. T
 
 The paramters of this function can be split into three categories: State, Prop getters, and Actions.
 
-See the [API Docs]() for a list of these properties.
+See the [API Docs](https://infiniteluke.github.io/dub-step/#stateandhelpers) for a list of these properties.
 
 ## Examples
 These are not yet available on github. But check out the codesandbox until they are! Fork it and build your own examples then [tweet me](https://twitter.com/lukeherrington) about it!
+
+[![Edit dub-step Examples 🕺🏽](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/p5vr4pq897)
 
 ## Credits
 

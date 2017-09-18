@@ -1,0 +1,11 @@
+src/__test__
+__coverage__
+docs
+.babelrc
+.emdaer.yml
+.eslintrc.yml
+.prettierrc
+.gitignore
+.travis.yml
+yark.lock
+other
