@@ -50,7 +50,6 @@ function BasicSlideshow({slides, onChange}) {
       {({
         getNextControlProps,
         getPreviousControlProps,
-        getControlContainerProps,
         getPauseControlProps,
         getPlayControlProps,
         getIndexControlProps,
