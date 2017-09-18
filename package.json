@@ -1,0 +1,82 @@
+{
+  "name": "dub-step",
+  "version": "0.0.1",
+  "description":
+    "A set of primitives for building index based UI widgets controlled by swipe, timers, and/or buttons.",
+  "main": "dist/dub-step.js",
+  "repository": "git@github.com:infiniteluke/dub-step.git",
+  "keywords": [
+    "enhanced input",
+    "react",
+    "carousel",
+    "swipe",
+    "slideshow",
+    "index",
+    "accessibility",
+    "WAI-ARIA",
+    "function as child",
+    "prop getter"
+  ],
+  "author": {
+    "name": "Luke Herrington",
+    "email": "lherrington100@gmail.com"
+  },
+  "license": "MIT",
+  "scripts": {
+    "test": "jest --coverage",
+    "test:watch": "BABEL_ENV=test jest --watch --coverage",
+    "start": "BABEL_ENV=development webpack --watch",
+    "build": "BABEL_ENV=development webpack",
+    "prettier": "prettier --write \"src/**/*.js\"",
+    "lint": "eslint src --ignore-path .gitignore --ignore-pattern docs .",
+    "documentation":
+      "BABEL_ENV=development documentation build src/** -f html -o docs",
+    "prepublish": "npm run build",
+    "precommit":
+      "lint-staged && npm run lint && npm run test && npm run documentation && git add docs"
+  },
+  "peerDependencies": {
+    "prop-types": ">=15",
+    "react": ">=15"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-react-app": "^3.0.2",
+    "documentation": "^5.3.2",
+    "enzyme": "^2.9.1",
+    "eslint": "^4.7.0",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-config-prettier": "^2.5.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jest": "^21.1.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.3.0",
+    "husky": "^0.14.3",
+    "jest": "^21.1.0",
+    "lint-staged": "^4.2.1",
+    "prettier": "^1.7.0",
+    "prop-types": "^15.5.10",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-test-renderer": "^15.6.1",
+    "webpack": "^3.6.0"
+  },
+  "jest": {
+    "coverageDirectory": "__coverage__",
+    "coverageThreshold": {
+      "global": {
+        "branches": 10,
+        "functions": 10,
+        "lines": 10,
+        "statements": 10
+      }
+    },
+    "testMatch": ["<rootDir>/src/__tests__/**/*.js"]
+  },
+  "lint-staged": {
+    "**/*.js": ["prettier --write", "git add"]
+  }
+}
