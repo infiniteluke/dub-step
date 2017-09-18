@@ -146,6 +146,8 @@ These are not yet available on github. But check out the codesandbox until they 
 
 [Kent Dodds'](github.com/kentcdodds) work on [downshift 🏎](https://github.com/paypal/downshift/) heavily inspired this package. You may even notice some copy pasta in the README 😏.
 
+This package is also inspired by work I rubber-ducked with [flip](https://github.com/flipactual/) for managing focus in a TV Shelf UI.
+
 Much of the swipe code was lifted from [react-slick](https://github.com/akiran/react-slick/) by [akiran](https://github.com/akiran) a very solid solution for swipe friently carousels.
 
 There is no lack of carousel libraries out there. Many of which I looked at while writting this package. I hope dub-step represents a move towards an unopinionated solution that enables design and development to work together not against each other.
