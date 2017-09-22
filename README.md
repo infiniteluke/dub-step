@@ -6,6 +6,15 @@
 <p align="center">Primitives for building index based UI widgets controlled by swipe, timers, and/or buttons.</p>
 <hr />
 
+[![Travis](https://img.shields.io/travis/infiniteluke/dub-step.svg?style=flat-square)](https://travis-ci.org/infiniteluke/dub-step)
+[![npm](https://img.shields.io/npm/v/dub-step.svg?style=flat-square)](https://www.npmjs.com/package/dub-step)
+[![GitHub issues](https://img.shields.io/github/issues/infiniteluke/dub-step.svg?style=flat-square)](https://github.com/infiniteluke/dub-step/issues)
+[![Coverage](https://img.shields.io/coveralls/infiniteluke/dub-step.svg?style=flat-square)]()
+[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+</br>
+[![Twitter](https://img.shields.io/twitter/url/https/github.com/infiniteluke/dub-step.svg?style=social)](https://twitter.com/intent/tweet?text=Step%20through%20an%20index%20with%20style%20with%20dub-step.%20Check%20it%20out!%20https://github.com/infiniteluke/dub-step%20🕺🏽&url=%5Bobject%20Object%5D)
+[![GitHub stars](https://img.shields.io/github/stars/badges/shields.svg?style=social&label=Star&)]()
+
 Many existing carousel/swipe solutions in one way or another end up dictating the markup of your UI. They expose many options to allow for extensibility, but this results in a convoluted API that is not flexible. In these cases, your often very specific design must be fit into an existing rigid solution.
 
 dub-step simply manages the state needed to power a carousel, slideshow, photo gallery, or even multi-step forms, allowing you to build the UI how you want. It uses the [function as child](https://medium.com/merrickchristensen/function-as-child-components-5f3920a9ace9) and "prop getter" patterns, which gives you maximum flexibility with a minimal API.

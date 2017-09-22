@@ -25,6 +25,8 @@
   "scripts": {
     "test": "jest --coverage",
     "test:watch": "BABEL_ENV=test jest --watch --coverage",
+    "test:report":
+      "jest --coverage && cat ./__coverage__/lcov.info | coveralls",
     "start": "BABEL_ENV=development webpack --watch",
     "build": "BABEL_ENV=development webpack",
     "prettier": "prettier --write \"src/**/*.js\"",
@@ -45,6 +47,7 @@
     "babel-eslint": "^8.0.0",
     "babel-loader": "^7.1.2",
     "babel-preset-react-app": "^3.0.2",
+    "coveralls": "^2.13.1",
     "documentation": "^5.3.2",
     "enzyme": "^2.9.1",
     "eslint": "^4.7.0",
