@@ -85,15 +85,23 @@
   
 
   <h1>DubStep</h1>
-<p>Many UI widgets have steps with boundaries and a "current" index.
-dub-step provides an API for updating an index.</p>
+<h1 align="center">
+  dub-step 🕺🏽
+  </br>
+  <img src="https://user-images.githubusercontent.com/1127238/30524706-690c72e0-9bad-11e7-9feb-4c76f572bdfc.png" alt="dub-step logo" title="dub-step logo" width="100">
+</h1>
+<p align="center">Primitives for building index based UI widgets controlled by swipe, timers, and/or buttons.</p>
+<hr />
+</br>
+Many existing carousel/swipe solutions in one way or another end up dictating the markup of your UI. They expose many options to allow for extensibility, but this results in a convoluted API that is not flexible. In these cases, your often very specific design must be fit into an existing rigid solution.
+dub-step simply manages the state needed to power a carousel, slideshow, photo gallery, or even multi-step forms, allowing you to build the UI how you want. It uses the <a href="https://medium.com/merrickchristensen/function-as-child-components-5f3920a9ace9">function as child</a> and "prop getter" patterns, which gives you maximum flexibility with a minimal API.
+<p>dub-step provides an API for updating an index.</p>
 <ul>
-<li>Directly when passed to getIndexControlProps(index).</li>
+<li>Directly when passed to getIndexControlProps(index) or an "action" is called.</li>
 <li>Incrementally when getNextControlProps/getPreviousControlProps is applied to a button.</li>
 <li>On swipe when getSlideProps is applied to a container of "slides".</li>
 <li>On a timer when getPlayControlProps/getPauseControlProps are applied to a button.</li>
 </ul>
-<p>The props provided affect how/when the index is updated and modify the above behaviors.</p>
 
 
   <div class='pre p1 fill-light mt0'>new DubStep(props: any)</div>
@@ -153,7 +161,8 @@ dub-step provides an API for updating an index.</p>
 
   
 
-  
+  <p>These props affect how/when the index and associated state is updated.</p>
+
 
   <div class='pre p1 fill-light mt0'>propTypes</div>
   
@@ -174,147 +183,189 @@ dub-step provides an API for updating an index.</p>
       
         <div class='space-bottom0'>
           <span class='code bold'>total</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-          : The total number of slides.
+          : The total number of slides. Defaults to 
+<code>0</code>
+.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>defaultIndex</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-          : The initial index of dub-step.
+          : The initial index of dub-step. Defaults to 
+<code>0</code>
+.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>cycle</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</code>
-          : Whether or not dub-step should cycle.
+          : Whether or not dub-step should cycle. Defaults to 
+<code>false</code>
+.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>stepInterval</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-          : The number of slides to interate when navigating..
+          : The number of slides to interate when navigating. Defaults to 
+<code>1</code>
+.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>autoPlay</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</code>
-          : Should dub-step autoPlay?
+          : Should dub-step autoPlay? Defaults to 
+<code>false</code>
+.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>duration</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-          : How long should each slide wait?
+          : How long should each slide wait? Defaults to 
+<code>0</code>
+.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>vertical</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</code>
-          : Are the slides changing vertically?
+          : Are the slides changing vertically? Defaults to 
+<code>false</code>
+.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>swipe</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</code>
-          : Are the slides swipable?
+          : Are the slides swipable? Defaults to 
+<code>false</code>
+.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>draggable</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</code>
-          : Are the slides draggable on desktop?
+          : Are the slides draggable on desktop? Defaults to 
+<code>false</code>
+.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>pauseOnHover</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</code>
-          : Should dub-step pause on hover?
+          : Should dub-step pause on hover? Defaults to 
+<code>false</code>
+.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>touchThreshold</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-          : How much it takes to change slides.
+          : How much it takes to change slides. Defaults to 
+<code>20</code>
+.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>swipeIterateOnly</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-          : Regardless of swipe direction, the index will be iterated.
+          : Regardless of swipe direction, the index will be iterated. Defaults to 
+<code>false</code>
+.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>animationSpeed</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-          : The transition animation speed.
+          : The transition animation speed. Defaults to 
+<code>0</code>
+.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>onBeforeChange</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Called immediately before the slide is changed.
+          : Called immediately before the slide is changed. Defaults to 
+<code>() => {}</code>
+.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>onChange</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Called once the slide has changed.
+          : Called once the slide has changed. Defaults to 
+<code>() => {}</code>
+.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>onAfterChange</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Called after the slide has changed and after animationSpeed seconds if present.
+          : Called after the slide has changed and after animationSpeed seconds if present. Defaults to 
+<code>() => {}</code>
+.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>onPlay</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Called when played.
+          : Called when played. Defaults to 
+<code>() => {}</code>
+.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>onPause</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Called when paused.
+          : Called when paused. Defaults to 
+<code>() => {}</code>
+.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>onNext</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Called when iterating to the next slide.
+          : Called when iterating to the next slide. Defaults to 
+<code>() => {}</code>
+.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>onPrevious</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Called when iterating to the previous slide.
+          : Called when iterating to the previous slide. Defaults to 
+<code>() => {}</code>
+.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>onSwipeStart</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Called when swiping/dragging has begun.
+          : Called when swiping/dragging has begun. Defaults to 
+<code>() => {}</code>
+.
 
           
         </div>
@@ -323,6 +374,8 @@ dub-step provides an API for updating an index.</p>
           <span class='code bold'>onSwipeMove</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
           : Called when a swipe/drag is moved. Warning: This gets called 
 <em>a lot</em>
+. Defaults to 
+<code>() => {}</code>
 .
 
           
@@ -330,7 +383,9 @@ dub-step provides an API for updating an index.</p>
       
         <div class='space-bottom0'>
           <span class='code bold'>onSwipeEnd</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Called when a swipe/drag is cancelled.
+          : Called when a swipe/drag is cancelled. Defaults to 
+<code>() => {}</code>
+.
 
           
         </div>
@@ -386,16 +441,16 @@ dub-step provides an API for updating an index.</p>
   </div>
   
 
-  <p>The state of dub-step and prop getters/actions for changing the state are exposed as a parameter to the render callback.</p>
+  <p>The state of dub-step and prop getters/actions for changing the state are exposed as a parameter to the render prop.</p>
 <p>The paramters of this function can be split into three categories: State, Prop getters, and Actions.</p>
 <ul>
-<li>State: State properties of dub-step exposed to your render code. Controlled state can be passed as a prop and "controlled"
+<li><em>State:</em> State properties of dub-step exposed to your render code. Controlled state can be passed as a prop and "controlled"
 by an outside component/router/store.</li>
-<li>Prop getters: Functions named like get*ControlProps. They are used to apply props to the elements that you render.
+<li><em>Prop getters:</em> Functions named like get*ControlProps. They are used to apply props to the elements that you render.
 This gives you maximum flexibility to render what, when, and wherever you like.
 You call these on the element in question (for example: <code>&#x3C;button {...getNextControlProps()}))>Next&#x3C;/button></code>.
 It's advisable to pass all your props to that function rather than applying them on the element yourself to avoid your props being overridden (or overriding the props returned).</li>
-<li>Actions: Call these to directly change the state of dub-step.</li>
+<li><em>Actions:</em> Call these to directly change the state of dub-step.</li>
 </ul>
 
 
@@ -533,7 +588,7 @@ This button will be responsible for clearing an internal interval that increment
       
         <div class='space-bottom0'>
           <span class='code bold'>getIndexControlProps</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Prop getter - eturns the props you should apply to an element you render that sets the index of dub-step.
+          : Prop getter - Returns the props you should apply to an element you render that sets the index of dub-step.
 This button will be responsible for setting the index of dub-step. 
 <em>NOTE: It takes an object with an index property as a parameter.</em>
 

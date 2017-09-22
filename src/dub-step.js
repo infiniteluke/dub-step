@@ -4,42 +4,52 @@ import { callAll, unwrapArray, getSign } from './utils';
 
 /**
  * # DubStep
- * 
- * Many UI widgets have steps with boundaries and a "current" index.
+ * <h1 align="center">
+ *   dub-step 🕺🏽
+ *   </br>
+ *   <img src="https://user-images.githubusercontent.com/1127238/30524706-690c72e0-9bad-11e7-9feb-4c76f572bdfc.png" alt="dub-step logo" title="dub-step logo" width="100">
+ * </h1>
+ * <p align="center">Primitives for building index based UI widgets controlled by swipe, timers, and/or buttons.</p>
+ * <hr />
+ * </br>
+ * Many existing carousel/swipe solutions in one way or another end up dictating the markup of your UI. They expose many options to allow for extensibility, but this results in a convoluted API that is not flexible. In these cases, your often very specific design must be fit into an existing rigid solution.
+ * dub-step simply manages the state needed to power a carousel, slideshow, photo gallery, or even multi-step forms, allowing you to build the UI how you want. It uses the <a href="https://medium.com/merrickchristensen/function-as-child-components-5f3920a9ace9">function as child</a> and "prop getter" patterns, which gives you maximum flexibility with a minimal API.
+ *
  * dub-step provides an API for updating an index.
- * - Directly when passed to getIndexControlProps(index).
+ * - Directly when passed to getIndexControlProps(index) or an "action" is called.
  * - Incrementally when getNextControlProps/getPreviousControlProps is applied to a button.
  * - On swipe when getSlideProps is applied to a container of "slides".
  * - On a timer when getPlayControlProps/getPauseControlProps are applied to a button.
  * 
- * The props provided affect how/when the index is updated and modify the above behaviors.
  */
 class DubStep extends Component {
   /**
+   * These props affect how/when the index and associated state is updated.
+   * 
    * @type {object}
-   * @property {number} total - The total number of slides.
-   * @property {number} defaultIndex - The initial index of dub-step.
-   * @property {boolean} cycle - Whether or not dub-step should cycle.
-   * @property {number} stepInterval - The number of slides to interate when navigating..
-   * @property {boolean} autoPlay - Should dub-step autoPlay?
-   * @property {number} duration - How long should each slide wait?
-   * @property {boolean} vertical - Are the slides changing vertically?
-   * @property {boolean} swipe - Are the slides swipable?
-   * @property {boolean} draggable - Are the slides draggable on desktop?
-   * @property {boolean} pauseOnHover - Should dub-step pause on hover?
-   * @property {number} touchThreshold - How much it takes to change slides.
-   * @property {number} swipeIterateOnly - Regardless of swipe direction, the index will be iterated.
-   * @property {number} animationSpeed - The transition animation speed.
-   * @property {function} onBeforeChange - Called immediately before the slide is changed.
-   * @property {function} onChange - Called once the slide has changed.
-   * @property {function} onAfterChange - Called after the slide has changed and after animationSpeed seconds if present.
-   * @property {function} onPlay - Called when played.
-   * @property {function} onPause - Called when paused.
-   * @property {function} onNext - Called when iterating to the next slide.
-   * @property {function} onPrevious - Called when iterating to the previous slide.
-   * @property {function} onSwipeStart - Called when swiping/dragging has begun.
-   * @property {function} onSwipeMove - Called when a swipe/drag is moved. Warning: This gets called _a lot_.
-   * @property {function} onSwipeEnd - Called when a swipe/drag is cancelled.
+   * @property {number} total - The total number of slides. Defaults to `0`.
+   * @property {number} defaultIndex - The initial index of dub-step. Defaults to `0`.
+   * @property {boolean} cycle - Whether or not dub-step should cycle. Defaults to `false`.
+   * @property {number} stepInterval - The number of slides to interate when navigating. Defaults to `1`.
+   * @property {boolean} autoPlay - Should dub-step autoPlay? Defaults to `false`.
+   * @property {number} duration - How long should each slide wait? Defaults to `0`.
+   * @property {boolean} vertical - Are the slides changing vertically? Defaults to `false`.
+   * @property {boolean} swipe - Are the slides swipable? Defaults to `false`.
+   * @property {boolean} draggable - Are the slides draggable on desktop? Defaults to `false`.
+   * @property {boolean} pauseOnHover - Should dub-step pause on hover? Defaults to `false`.
+   * @property {number} touchThreshold - How much it takes to change slides. Defaults to `20`.
+   * @property {number} swipeIterateOnly - Regardless of swipe direction, the index will be iterated. Defaults to `false`.
+   * @property {number} animationSpeed - The transition animation speed. Defaults to `0`.
+   * @property {function} onBeforeChange - Called immediately before the slide is changed. Defaults to `() => {}`.
+   * @property {function} onChange - Called once the slide has changed. Defaults to `() => {}`.
+   * @property {function} onAfterChange - Called after the slide has changed and after animationSpeed seconds if present. Defaults to `() => {}`.
+   * @property {function} onPlay - Called when played. Defaults to `() => {}`.
+   * @property {function} onPause - Called when paused. Defaults to `() => {}`.
+   * @property {function} onNext - Called when iterating to the next slide. Defaults to `() => {}`.
+   * @property {function} onPrevious - Called when iterating to the previous slide. Defaults to `() => {}`.
+   * @property {function} onSwipeStart - Called when swiping/dragging has begun. Defaults to `() => {}`.
+   * @property {function} onSwipeMove - Called when a swipe/drag is moved. Warning: This gets called _a lot_. Defaults to `() => {}`.
+   * @property {function} onSwipeEnd - Called when a swipe/drag is cancelled. Defaults to `() => {}`.
    * @property {function|array} children - Called with an object containing current state and prop getters.
    */
   static propTypes = {
@@ -288,16 +298,16 @@ class DubStep extends Component {
   }
 
   /**
-   * The state of dub-step and prop getters/actions for changing the state are exposed as a parameter to the render callback.
+   * The state of dub-step and prop getters/actions for changing the state are exposed as a parameter to the render prop.
    * 
    * The paramters of this function can be split into three categories: State, Prop getters, and Actions.
-   * - State: State properties of dub-step exposed to your render code. Controlled state can be passed as a prop and "controlled"
+   * - *State:* State properties of dub-step exposed to your render code. Controlled state can be passed as a prop and "controlled"
    *  by an outside component/router/store.
-   * - Prop getters: Functions named like get*ControlProps. They are used to apply props to the elements that you render.
+   * - *Prop getters:* Functions named like get*ControlProps. They are used to apply props to the elements that you render.
    *  This gives you maximum flexibility to render what, when, and wherever you like.
    *  You call these on the element in question (for example: `<button {...getNextControlProps()}))>Next</button>`.
    *  It's advisable to pass all your props to that function rather than applying them on the element yourself to avoid your props being overridden (or overriding the props returned).
-   * - Actions: Call these to directly change the state of dub-step.
+   * - *Actions:* Call these to directly change the state of dub-step.
    * 
    * @typedef {object} StateAndHelpers
    * 
@@ -321,7 +331,7 @@ class DubStep extends Component {
    *    This button will be responsible for starting an internal interval that increments the index by the stepInterval value.
    * @property {function} getPauseControlProps - Prop getter - Returns the props you should apply to a pause button element you render.
    *    This button will be responsible for clearing an internal interval that increments the index by the stepInterval value.
-   * @property {function} getIndexControlProps - Prop getter - eturns the props you should apply to an element you render that sets the index of dub-step.
+   * @property {function} getIndexControlProps - Prop getter - Returns the props you should apply to an element you render that sets the index of dub-step.
    *    This button will be responsible for setting the index of dub-step. _NOTE: It takes an object with an index property as a parameter._
    * @property {function} getSlideProps - Prop getter - Returns the props you should apply to an element you render that is expected to have swipe/drag interactions.
    *    This button will be responsible for tracking touch/drag interactions and sets dub-steps swipe state properties respectively.
