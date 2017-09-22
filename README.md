@@ -13,7 +13,7 @@
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 </br>
 [![Twitter](https://img.shields.io/twitter/url/https/github.com/infiniteluke/dub-step.svg?style=social)](https://twitter.com/intent/tweet?text=Step%20through%20an%20index%20with%20style%20with%20dub-step.%20Check%20it%20out!%20https://github.com/infiniteluke/dub-step%20🕺🏽&url=%5Bobject%20Object%5D)
-[![GitHub stars](https://img.shields.io/github/stars/badges/shields.svg?style=social&label=Star&)]()
+[![GitHub stars](https://img.shields.io/github/stars/infiniteluke/dub-step.svg?style=social&label=Star)](https://github.com/infiniteluke/dub-step/stargazers)
 
 Many existing carousel/swipe solutions in one way or another end up dictating the markup of your UI. They expose many options to allow for extensibility, but this results in a convoluted API that is not flexible. In these cases, your often very specific design must be fit into an existing rigid solution.
 
