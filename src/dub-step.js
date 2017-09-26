@@ -20,12 +20,12 @@ import { callAll, unwrapArray, getSign } from './utils';
  * - Incrementally when getNextControlProps/getPreviousControlProps is applied to a button.
  * - On swipe when getSlideProps is applied to a container of "slides".
  * - On a timer when getPlayControlProps/getPauseControlProps are applied to a button.
- * 
+ *
  */
 class DubStep extends Component {
   /**
    * These props affect how/when the index and associated state is updated.
-   * 
+   *
    * @type {object}
    * @property {number} total - The total number of slides. Defaults to `0`.
    * @property {number} defaultIndex - The initial index of dub-step. Defaults to `0`.
@@ -221,7 +221,7 @@ class DubStep extends Component {
   getIndexControlProps = ({ index, ...rest } = { index: 0 }) => ({
     'aria-label': 'change',
     ...rest,
-    onClick: callAll(rest.onClick, () => this.setIndexState({ index })),
+    onClick: callAll(rest.onClick, () => this.changeSlide(index)),
   });
 
   setIndexState = (nextState, callback = () => {}) => {
@@ -299,7 +299,7 @@ class DubStep extends Component {
 
   /**
    * The state of dub-step and prop getters/actions for changing the state are exposed as a parameter to the render prop.
-   * 
+   *
    * The paramters of this function can be split into three categories: State, Prop getters, and Actions.
    * - *State:* State properties of dub-step exposed to your render code. Controlled state can be passed as a prop and "controlled"
    *  by an outside component/router/store.
@@ -308,9 +308,9 @@ class DubStep extends Component {
    *  You call these on the element in question (for example: `<button {...getNextControlProps()}))>Next</button>`.
    *  It's advisable to pass all your props to that function rather than applying them on the element yourself to avoid your props being overridden (or overriding the props returned).
    * - *Actions:* Call these to directly change the state of dub-step.
-   * 
+   *
    * @typedef {object} StateAndHelpers
-   * 
+   *
    * @property {number} index - state - The current index of dub-step. Controlled.
    * @property {boolean} paused - state - Is dub-step paused? Controlled.
    * @property {boolean} animating - state - Is the slide transition animating?
@@ -344,7 +344,7 @@ class DubStep extends Component {
   /**
    * Returns state and helpers for render callback.
    * @private
-   *  
+   *
    * @return {StateAndHelpers}
    *  The state and helper functions exposed as a parameter to the render callback
    */
