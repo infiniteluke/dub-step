@@ -1,8 +1,7 @@
 {
   "name": "dub-step",
-  "version": "0.0.2",
-  "description":
-    "A set of primitives for building index based UI widgets controlled by swipe, timers, and/or buttons.",
+  "version": "0.0.3",
+  "description": "A set of primitives for building index based UI widgets controlled by swipe, timers, and/or buttons.",
   "main": "dist/dub-step.js",
   "repository": "git@github.com:infiniteluke/dub-step.git",
   "keywords": [
@@ -25,17 +24,14 @@
   "scripts": {
     "test": "jest --coverage",
     "test:watch": "BABEL_ENV=test jest --watch --coverage",
-    "test:report":
-      "jest --coverage && cat ./__coverage__/lcov.info | coveralls",
+    "test:report": "jest --coverage && cat ./__coverage__/lcov.info | coveralls",
     "start": "BABEL_ENV=development webpack --watch",
     "build": "BABEL_ENV=development webpack",
     "prettier": "prettier --write \"src/**/*.js\"",
     "lint": "eslint src --ignore-path .gitignore --ignore-pattern docs .",
-    "documentation":
-      "BABEL_ENV=development documentation build src/** -f html -o docs",
+    "documentation": "BABEL_ENV=development documentation build src/** -f html -o docs",
     "prepublish": "npm run build",
-    "precommit":
-      "lint-staged && npm run lint && npm run test && npm run documentation && git add docs"
+    "precommit": "lint-staged && npm run lint && npm run test && npm run documentation && git add docs"
   },
   "peerDependencies": {
     "prop-types": ">=15",
@@ -77,9 +73,14 @@
         "statements": 10
       }
     },
-    "testMatch": ["<rootDir>/src/__tests__/**/*.js"]
+    "testMatch": [
+      "<rootDir>/src/__tests__/**/*.js"
+    ]
   },
   "lint-staged": {
-    "**/*.js": ["prettier --write", "git add"]
+    "**/*.js": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
