@@ -1,7 +1,8 @@
 {
   "name": "dub-step",
   "version": "0.0.3",
-  "description": "A set of primitives for building index based UI widgets controlled by swipe, timers, and/or buttons.",
+  "description":
+    "A set of primitives for building index based UI widgets controlled by swipe, timers, and/or buttons.",
   "main": "dist/dub-step.js",
   "repository": "git@github.com:infiniteluke/dub-step.git",
   "keywords": [
@@ -24,14 +25,18 @@
   "scripts": {
     "test": "jest --coverage",
     "test:watch": "BABEL_ENV=test jest --watch --coverage",
-    "test:report": "jest --coverage && cat ./__coverage__/lcov.info | coveralls",
+    "test:ci":
+      "jest --coverage && cat ./__coverage__/lcov.info | coveralls && npm run size",
+    "size": "size-limit",
     "start": "BABEL_ENV=development webpack --watch",
-    "build": "BABEL_ENV=development webpack",
+    "build": "BABEL_ENV=production webpack",
     "prettier": "prettier --write \"src/**/*.js\"",
     "lint": "eslint src --ignore-path .gitignore --ignore-pattern docs .",
-    "documentation": "BABEL_ENV=development documentation build src/** -f html -o docs",
+    "documentation":
+      "BABEL_ENV=development documentation build src/** -f html -o docs",
     "prepublish": "npm run build",
-    "precommit": "lint-staged && npm run lint && npm run test && npm run documentation && git add docs"
+    "precommit":
+      "lint-staged && npm run lint && npm run test && npm run documentation && git add docs"
   },
   "peerDependencies": {
     "prop-types": ">=15",
@@ -61,8 +66,15 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-test-renderer": "^15.6.1",
+    "size-limit": "^0.11.4",
     "webpack": "^3.6.0"
   },
+  "size-limit": [
+    {
+      "path": "dist/dub-step.js",
+      "limit": "7 KB"
+    }
+  ],
   "jest": {
     "coverageDirectory": "__coverage__",
     "coverageThreshold": {
@@ -73,14 +85,9 @@
         "statements": 10
       }
     },
-    "testMatch": [
-      "<rootDir>/src/__tests__/**/*.js"
-    ]
+    "testMatch": ["<rootDir>/src/__tests__/**/*.js"]
   },
   "lint-staged": {
-    "**/*.js": [
-      "prettier --write",
-      "git add"
-    ]
+    "**/*.js": ["prettier --write", "git add"]
   }
 }
