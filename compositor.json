@@ -54,8 +54,8 @@
     },
     {
       "component": "header",
-      "heading": "dub-step",
-      "subhead": "🕺🏽  Step through an index with style: Primitives for building index based UI widgets controlled by swipe, timers, and/or buttons.",
+      "heading": "dub-step 🕺🏽 ",
+      "subhead": " Step through an index with style: Primitives for building index based UI widgets controlled by swipe, timers, and/or buttons.",
       "children": [
         {
           "component": "ui/TweetButton",
