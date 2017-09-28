@@ -562,22 +562,11 @@ class DubStep extends Component {
     if (touchObject.swipeLength > minSwipe) {
       e.preventDefault();
 
-      let newIndex;
-
-      switch (swipeDirectionSign) {
-        case -1:
-          newIndex = this.getNextIndex();
-          break;
-        case 1:
-          newIndex = this.props.swipeIterateOnly
-            ? this.getNextIndex()
-            : this.getPreviousIndex();
-          break;
-        default:
-          newIndex = this.getControlledProp('index');
+      if (this.props.swipeIterateOnly || swipeDirectionSign === -1) {
+        this.next();
+      } else {
+        this.previous();
       }
-
-      this.changeSlide(newIndex);
     }
   };
   changeSlide = index => {
