@@ -45,6 +45,47 @@
                     </ul>
                   
                   
+                    <ul class='list-reset py1-ul pl1'>
+                      <li class='h5'><span>Instance members</span></li>
+                      
+                      <li><a
+                        href='#dubstepstep'
+                        class='regular pre-open'>
+                        #Step
+                      </a></li>
+                      
+                      <li><a
+                        href='#dubstepnext'
+                        class='regular pre-open'>
+                        #Next
+                      </a></li>
+                      
+                      <li><a
+                        href='#dubstepprevious'
+                        class='regular pre-open'>
+                        #Previous
+                      </a></li>
+                      
+                      <li><a
+                        href='#dubstepplay'
+                        class='regular pre-open'>
+                        #Play
+                      </a></li>
+                      
+                      <li><a
+                        href='#dubsteppause'
+                        class='regular pre-open'>
+                        #Pause
+                      </a></li>
+                      
+                      <li><a
+                        href='#dubstepstepindex'
+                        class='regular pre-open'>
+                        #StepIndex
+                      </a></li>
+                      
+                    </ul>
+                  
                   
                   
                 </div>
@@ -90,17 +131,17 @@
   </br>
   <img src="https://user-images.githubusercontent.com/1127238/30524706-690c72e0-9bad-11e7-9feb-4c76f572bdfc.png" alt="dub-step logo" title="dub-step logo" width="100">
 </h1>
-<p align="center">Primitives for building index based UI widgets controlled by swipe, timers, and/or buttons.</p>
+<p align="center">Primitives for building step based UI widgets controlled by swipe, timers, and/or buttons.</p>
 <hr />
 </br>
 Many existing carousel/swipe solutions in one way or another end up dictating the markup of your UI. They expose many options to allow for extensibility, but this results in a convoluted API that is not flexible. In these cases, your often very specific design must be fit into an existing rigid solution.
 dub-step simply manages the state needed to power a carousel, slideshow, photo gallery, or even multi-step forms, allowing you to build the UI how you want. It uses the <a href="https://medium.com/merrickchristensen/function-as-child-components-5f3920a9ace9">function as child</a> and "prop getter" patterns, which gives you maximum flexibility with a minimal API.
-<p>dub-step provides an API for updating an index.</p>
+<p>dub-step provides an API for updating the state of an index or "step".</p>
 <ul>
-<li>Directly when passed to getIndexControlProps(index) or an "action" is called.</li>
-<li>Incrementally when getNextControlProps/getPreviousControlProps is applied to a button.</li>
-<li>On swipe when getSlideProps is applied to a container of "slides".</li>
-<li>On a timer when getPlayControlProps/getPauseControlProps are applied to a button.</li>
+<li>Directly when an "action" like <code>next</code> is called.</li>
+<li>Incrementally when the provided Next/Previous components are clicked.</li>
+<li>On swipe when a Step component is swiped.</li>
+<li>On a timer when the provided Play/Pause components are clicked.</li>
 </ul>
 
 
@@ -161,7 +202,7 @@ dub-step simply manages the state needed to power a carousel, slideshow, photo g
 
   
 
-  <p>These props affect how/when the index and associated state is updated.</p>
+  <p>These props affect how/when the step and associated state is updated.</p>
 
 
   <div class='pre p1 fill-light mt0'>propTypes</div>
@@ -183,7 +224,7 @@ dub-step simply manages the state needed to power a carousel, slideshow, photo g
       
         <div class='space-bottom0'>
           <span class='code bold'>total</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-          : The total number of slides. Defaults to 
+          : The total number of steps. Defaults to 
 <code>0</code>
 .
 
@@ -191,8 +232,8 @@ dub-step simply manages the state needed to power a carousel, slideshow, photo g
         </div>
       
         <div class='space-bottom0'>
-          <span class='code bold'>defaultIndex</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-          : The initial index of dub-step. Defaults to 
+          <span class='code bold'>defaultStep</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+          : The initial step of dub-step. Defaults to 
 <code>0</code>
 .
 
@@ -210,7 +251,7 @@ dub-step simply manages the state needed to power a carousel, slideshow, photo g
       
         <div class='space-bottom0'>
           <span class='code bold'>stepInterval</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-          : The number of slides to interate when navigating. Defaults to 
+          : The number of steps to interate when navigating. Defaults to 
 <code>1</code>
 .
 
@@ -228,7 +269,7 @@ dub-step simply manages the state needed to power a carousel, slideshow, photo g
       
         <div class='space-bottom0'>
           <span class='code bold'>duration</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-          : How long should each slide wait? Defaults to 
+          : How long should each step wait? Defaults to 
 <code>0</code>
 .
 
@@ -237,7 +278,7 @@ dub-step simply manages the state needed to power a carousel, slideshow, photo g
       
         <div class='space-bottom0'>
           <span class='code bold'>vertical</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</code>
-          : Are the slides changing vertically? Defaults to 
+          : Are the steps changing vertically? Defaults to 
 <code>false</code>
 .
 
@@ -246,7 +287,7 @@ dub-step simply manages the state needed to power a carousel, slideshow, photo g
       
         <div class='space-bottom0'>
           <span class='code bold'>swipe</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</code>
-          : Are the slides swipable? Defaults to 
+          : Are the steps swipable? Defaults to 
 <code>false</code>
 .
 
@@ -255,7 +296,7 @@ dub-step simply manages the state needed to power a carousel, slideshow, photo g
       
         <div class='space-bottom0'>
           <span class='code bold'>draggable</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</code>
-          : Are the slides draggable on desktop? Defaults to 
+          : Are the steps draggable on desktop? Defaults to 
 <code>false</code>
 .
 
@@ -273,7 +314,7 @@ dub-step simply manages the state needed to power a carousel, slideshow, photo g
       
         <div class='space-bottom0'>
           <span class='code bold'>touchThreshold</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-          : How much it takes to change slides. Defaults to 
+          : How much it takes to change steps. Defaults to 
 <code>20</code>
 .
 
@@ -282,7 +323,7 @@ dub-step simply manages the state needed to power a carousel, slideshow, photo g
       
         <div class='space-bottom0'>
           <span class='code bold'>swipeIterateOnly</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-          : Regardless of swipe direction, the index will be iterated. Defaults to 
+          : Regardless of swipe direction, the step is iterated. Defaults to 
 <code>false</code>
 .
 
@@ -300,7 +341,7 @@ dub-step simply manages the state needed to power a carousel, slideshow, photo g
       
         <div class='space-bottom0'>
           <span class='code bold'>onBeforeChange</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Called immediately before the slide is changed. Defaults to 
+          : Called immediately before the step is changed. Defaults to 
 <code>() => {}</code>
 .
 
@@ -309,7 +350,7 @@ dub-step simply manages the state needed to power a carousel, slideshow, photo g
       
         <div class='space-bottom0'>
           <span class='code bold'>onChange</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Called once the slide has changed. Defaults to 
+          : Called once the step has changed. Defaults to 
 <code>() => {}</code>
 .
 
@@ -318,7 +359,7 @@ dub-step simply manages the state needed to power a carousel, slideshow, photo g
       
         <div class='space-bottom0'>
           <span class='code bold'>onAfterChange</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Called after the slide has changed and after animationSpeed seconds if present. Defaults to 
+          : Called after the step has changed and after animationSpeed seconds if present. Defaults to 
 <code>() => {}</code>
 .
 
@@ -345,7 +386,7 @@ dub-step simply manages the state needed to power a carousel, slideshow, photo g
       
         <div class='space-bottom0'>
           <span class='code bold'>onNext</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Called when iterating to the next slide. Defaults to 
+          : Called when iterating to the next step. Defaults to 
 <code>() => {}</code>
 .
 
@@ -354,7 +395,7 @@ dub-step simply manages the state needed to power a carousel, slideshow, photo g
       
         <div class='space-bottom0'>
           <span class='code bold'>onPrevious</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Called when iterating to the previous slide. Defaults to 
+          : Called when iterating to the previous step. Defaults to 
 <code>() => {}</code>
 .
 
@@ -421,6 +462,625 @@ dub-step simply manages the state needed to power a carousel, slideshow, photo g
   
 
   
+    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='dubstepstep'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>Step</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>This component is responsible for tracking touch/drag interactions and sets dub-steps swipe state properties respectively.</p>
+
+
+  <div class='pre p1 fill-light mt0'>Step</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>props</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>props.component</span> <code class='quiet'>(ReactElement | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+                  
+                    (default <code>div</code>)
+                  </td>
+                  <td class='break-word'><span>The element to render
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>ReactElement</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-comment">// In this example, GlamorousDogeImg is a glamorous.img. The only required prop here is component. The rest gets passed through for glamorous to for styling purposes (Like css transforms).</span>
+<span class="hljs-comment">// <span class="hljs-doctag">NOTE:</span> Glamorous is only used as an example. Any kind of component can be passed to the component prop.</span>
+<span class="hljs-comment">// If no component is passed, a div will be used.</span>
+&lt;Step
+ component={GlamorousDogeImg}
+ swipeLeftDistance={swipeLeftDistance}
+ dragging={dragging}
+ src={url}
+ alt=<span class="hljs-string">"doge pic"</span>
+/&gt;</pre>
+    
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='dubstepnext'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>Next</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>This component is responsible for incrementing the step by the stepInterval value.</p>
+
+
+  <div class='pre p1 fill-light mt0'>Next</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>props</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>props.component</span> <code class='quiet'>(ReactElement | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+                  
+                    (default <code>button</code>)
+                  </td>
+                  <td class='break-word'><span>The element to render
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>ReactElement</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>&lt;Next&gt;Next&lt;<span class="hljs-regexp">/Next&gt;</span></pre>
+    
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='dubstepprevious'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>Previous</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>This component is responsible for decrementing the step by the stepInterval value.</p>
+
+
+  <div class='pre p1 fill-light mt0'>Previous</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>props</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>props.component</span> <code class='quiet'>(ReactElement | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+                  
+                    (default <code>button</code>)
+                  </td>
+                  <td class='break-word'><span>The element to render
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>ReactElement</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>&lt;Previous&gt;Previous&lt;<span class="hljs-regexp">/Previous&gt;</span></pre>
+    
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='dubstepplay'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>Play</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>This component is responsible for starting an internal interval that increments the step by the stepInterval value.</p>
+
+
+  <div class='pre p1 fill-light mt0'>Play</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>props</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>props.component</span> <code class='quiet'>(ReactElement | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+                  
+                    (default <code>button</code>)
+                  </td>
+                  <td class='break-word'><span>The element to render
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>ReactElement</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-comment">// Any dub-step component can be customized by passing a `component` prop.</span>
+&lt;Play component={MyCustomPlayButton}&gt;Play&lt;<span class="hljs-regexp">/Play&gt;</span></pre>
+    
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='dubsteppause'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>Pause</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>This component is responsible for clearing an internal interval that increments the step by the stepInterval value.</p>
+
+
+  <div class='pre p1 fill-light mt0'>Pause</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>props</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>props.component</span> <code class='quiet'>(ReactElement | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+                  
+                    (default <code>button</code>)
+                  </td>
+                  <td class='break-word'><span>The element to render
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>ReactElement</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>&lt;Pause&gt;Stop&lt;<span class="hljs-regexp">/Pause&gt;</span></pre>
+    
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='dubstepstepindex'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>StepIndex</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>This component is responsible for setting the current step of dub-step.</p>
+
+
+  <div class='pre p1 fill-light mt0'>StepIndex</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>props</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</code>
+	    
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>props.component</span> <code class='quiet'>(ReactElement | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+                  
+                    (default <code>button</code>)
+                  </td>
+                  <td class='break-word'><span>The element to render
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>step</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The step to which dub-step should change.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>ReactElement</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-comment">// Remember, any other prop added gets passed through to the component.</span>
+&lt;StepIndex
+  step={index}
+  onMouseEnter={() =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`About to switch to step <span class="hljs-subst">${index}</span>`</span>)}
+&gt;
+  {stepNumber}
+&lt;<span class="hljs-regexp">/StepIndex&gt;</span></pre>
+    
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
+
+  
 
   
 </section>
@@ -442,13 +1102,14 @@ dub-step simply manages the state needed to power a carousel, slideshow, photo g
   
 
   <p>The state of dub-step and prop getters/actions for changing the state are exposed as a parameter to the render prop.</p>
-<p>The paramters of this function can be split into three categories: State, Prop getters, and Actions.</p>
+<p>The paramters of this function can be split into 4 categories: State, Components, Actions.</p>
 <ul>
 <li><em>State:</em> State properties of dub-step exposed to your render code. Controlled state can be passed as a prop and "controlled"
 by an outside component/router/store.</li>
-<li><em>Prop getters:</em> Functions named like get*ControlProps. They are used to apply props to the elements that you render.
-This gives you maximum flexibility to render what, when, and wherever you like.
-You call these on the element in question (for example: <code>&#x3C;button {...getNextControlProps()}))>Next&#x3C;/button></code>.
+<li><em>Components</em> Components that control the current step. They take a <code>component</code> prop which allows you to control your UI,
+add internal props, and pass through any additional props you add. Examples include: Step, Next, Previous, Play, Pause.
+<em>NOTE:</em> Each component has an alternative and respective "prop getter", if that pattern is preferred. These are functions named get*ControlProps.
+Call/spread these on the element you're rendering for a given purpose. For example: <code>&#x3C;button {...getNextControlProps(otherProps)}))>Next&#x3C;/button></code>.
 It's advisable to pass all your props to that function rather than applying them on the element yourself to avoid your props being overridden (or overriding the props returned).</li>
 <li><em>Actions:</em> Call these to directly change the state of dub-step.</li>
 </ul>
@@ -477,8 +1138,8 @@ It's advisable to pass all your props to that function rather than applying them
     <div>
       
         <div class='space-bottom0'>
-          <span class='code bold'>index</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-          : state - The current index of dub-step. Controlled.
+          <span class='code bold'>step</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+          : state - The current step of dub-step. Controlled.
 
           
         </div>
@@ -492,7 +1153,7 @@ It's advisable to pass all your props to that function rather than applying them
       
         <div class='space-bottom0'>
           <span class='code bold'>animating</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</code>
-          : state - Is the slide transition animating?
+          : state - Is the step component transition animating?
 
           
         </div>
@@ -506,28 +1167,28 @@ It's advisable to pass all your props to that function rather than applying them
       
         <div class='space-bottom0'>
           <span class='code bold'>dragging</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</code>
-          : state - Has the slide been initially dragged?
+          : state - Has the step component been initially dragged?
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>swipeLeftDistance</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-          : state - A number representing the distance slide has been dragged horizontally.
+          : state - A number representing the distance the step component has been dragged horizontally.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>swipeDownDistance</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-          : state - A number representing the distance slide has been dragged vertically.
+          : state - A number representing the distance the step component has been dragged vertically.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>swiped</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</code>
-          : state - Has the slide been dragged enough to be moved to the next/previous slide?
+          : state - Has the step component been dragged enough to be moved to the next/previous step?
 
           
         </div>
@@ -547,72 +1208,77 @@ It's advisable to pass all your props to that function rather than applying them
         </div>
       
         <div class='space-bottom0'>
-          <span class='code bold'>getNextControlProps</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Prop getter - Returns the props you should apply to a next button element you render.
-This button will be responsible for incrementing the index by the stepInterval value.
+          <span class='code bold'>Step</span> <code class='quiet'>(ReactElement)</code>
+          : Component - This component is responsible for tracking touch/drag interactions and sets dub-steps swipe state properties respectively.
+Alternatively, use 
+<code>getStepProps</code>
+ if you prefer the prop getter patern. Returns the props you should apply to an element you render that is expected to have swipe/drag interactions.
 
           
         </div>
       
         <div class='space-bottom0'>
-          <span class='code bold'>getPreviousControlProps</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Prop getter - Returns the props you should apply to a previous/back button element you render.
-This button will be responsible for decrementing the index by the stepInterval value.
+          <span class='code bold'>Next</span> <code class='quiet'>(ReactElement)</code>
+          : Component - This component is responsible for incrementing the step by the stepInterval value.
+Alternatively, use 
+<code>getNextControlProps</code>
+ if you prefer the prop getter pattern. It returns the props you should apply to a next button element you render.
 
           
         </div>
       
         <div class='space-bottom0'>
-          <span class='code bold'>getPauseControlProps</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Prop getter - Returns the props you should apply to a previous button element you render.
-This button will be responsible for decrementing the index by the stepInterval value.
+          <span class='code bold'>Previous</span> <code class='quiet'>(ReactElement)</code>
+          : Component - This component is responsible for decrementing the step by the stepInterval value.
+Alternatively, use 
+<code>getPreviousControlProps</code>
+ if you prefer the prop getter patern. It returns the props you should apply to a previous/back button element you render.
 
           
         </div>
       
         <div class='space-bottom0'>
-          <span class='code bold'>getPlayControlProps</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Prop getter - Returns the props you should apply to a play button element you render.
-This button will be responsible for starting an internal interval that increments the index by the stepInterval value.
+          <span class='code bold'>Play</span> <code class='quiet'>(ReactElement)</code>
+          : Component - This component is responsible for starting an internal interval that increments the step by the stepInterval value.
+Alternatively, use 
+<code>getPlayControlProps</code>
+ if you prefer the prop getter patern. It returns the props you should apply to a play button element you render.
 
           
         </div>
       
         <div class='space-bottom0'>
-          <span class='code bold'>getPauseControlProps</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Prop getter - Returns the props you should apply to a pause button element you render.
-This button will be responsible for clearing an internal interval that increments the index by the stepInterval value.
+          <span class='code bold'>Pause</span> <code class='quiet'>(ReactElement)</code>
+          : Component - This component is responsible for clearing an internal interval that increments the step by the stepInterval value.
+Alternatively, use 
+<code>getPauseControlProps</code>
+ if you prefer the prop getter patern. It returns the props you should apply to a pause button element you render.
 
           
         </div>
       
         <div class='space-bottom0'>
-          <span class='code bold'>getIndexControlProps</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Prop getter - Returns the props you should apply to an element you render that sets the index of dub-step.
-This button will be responsible for setting the index of dub-step. 
-<em>NOTE: It takes an object with an index property as a parameter.</em>
+          <span class='code bold'>StepIndex</span> <code class='quiet'>(ReactElement)</code>
+          : Component - This component is responsible for setting the current step of dub-step. 
+<em>NOTE: It takes a step prop representing the step to which dub-step should change.</em>
 
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <span class='code bold'>getSlideProps</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Prop getter - Returns the props you should apply to an element you render that is expected to have swipe/drag interactions.
-This button will be responsible for tracking touch/drag interactions and sets dub-steps swipe state properties respectively.
+Alternatively, use 
+<code>getStepControlProps</code>
+ if you prefer the prop getter patern. It returns the props you should apply to an element you render that sets the step of dub-step.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>next</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Action - Increments the index by the stepInterval.
+          : Action - Increments the step by the stepInterval.
 
           
         </div>
       
         <div class='space-bottom0'>
           <span class='code bold'>previous</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-          : Action - Decrements the index by the stepInterval.
+          : Action - Decrements the step by the stepInterval.
 
           
         </div>

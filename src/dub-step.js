@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { callAll, unwrapArray, getSign } from './utils';
 
@@ -9,44 +9,44 @@ import { callAll, unwrapArray, getSign } from './utils';
  *   </br>
  *   <img src="https://user-images.githubusercontent.com/1127238/30524706-690c72e0-9bad-11e7-9feb-4c76f572bdfc.png" alt="dub-step logo" title="dub-step logo" width="100">
  * </h1>
- * <p align="center">Primitives for building index based UI widgets controlled by swipe, timers, and/or buttons.</p>
+ * <p align="center">Primitives for building step based UI widgets controlled by swipe, timers, and/or buttons.</p>
  * <hr />
  * </br>
  * Many existing carousel/swipe solutions in one way or another end up dictating the markup of your UI. They expose many options to allow for extensibility, but this results in a convoluted API that is not flexible. In these cases, your often very specific design must be fit into an existing rigid solution.
  * dub-step simply manages the state needed to power a carousel, slideshow, photo gallery, or even multi-step forms, allowing you to build the UI how you want. It uses the <a href="https://medium.com/merrickchristensen/function-as-child-components-5f3920a9ace9">function as child</a> and "prop getter" patterns, which gives you maximum flexibility with a minimal API.
  *
- * dub-step provides an API for updating an index.
- * - Directly when passed to getIndexControlProps(index) or an "action" is called.
- * - Incrementally when getNextControlProps/getPreviousControlProps is applied to a button.
- * - On swipe when getSlideProps is applied to a container of "slides".
- * - On a timer when getPlayControlProps/getPauseControlProps are applied to a button.
+ * dub-step provides an API for updating the state of an index or "step".
+ * - Directly when an "action" like `next` is called.
+ * - Incrementally when the provided Next/Previous components are clicked.
+ * - On swipe when a Step component is swiped.
+ * - On a timer when the provided Play/Pause components are clicked.
  *
  */
 class DubStep extends Component {
   /**
-   * These props affect how/when the index and associated state is updated.
+   * These props affect how/when the step and associated state is updated.
    *
    * @type {object}
-   * @property {number} total - The total number of slides. Defaults to `0`.
-   * @property {number} defaultIndex - The initial index of dub-step. Defaults to `0`.
+   * @property {number} total - The total number of steps. Defaults to `0`.
+   * @property {number} defaultStep - The initial step of dub-step. Defaults to `0`.
    * @property {boolean} cycle - Whether or not dub-step should cycle. Defaults to `false`.
-   * @property {number} stepInterval - The number of slides to interate when navigating. Defaults to `1`.
+   * @property {number} stepInterval - The number of steps to interate when navigating. Defaults to `1`.
    * @property {boolean} autoPlay - Should dub-step autoPlay? Defaults to `false`.
-   * @property {number} duration - How long should each slide wait? Defaults to `0`.
-   * @property {boolean} vertical - Are the slides changing vertically? Defaults to `false`.
-   * @property {boolean} swipe - Are the slides swipable? Defaults to `false`.
-   * @property {boolean} draggable - Are the slides draggable on desktop? Defaults to `false`.
+   * @property {number} duration - How long should each step wait? Defaults to `0`.
+   * @property {boolean} vertical - Are the steps changing vertically? Defaults to `false`.
+   * @property {boolean} swipe - Are the steps swipable? Defaults to `false`.
+   * @property {boolean} draggable - Are the steps draggable on desktop? Defaults to `false`.
    * @property {boolean} pauseOnHover - Should dub-step pause on hover? Defaults to `false`.
-   * @property {number} touchThreshold - How much it takes to change slides. Defaults to `20`.
-   * @property {number} swipeIterateOnly - Regardless of swipe direction, the index will be iterated. Defaults to `false`.
+   * @property {number} touchThreshold - How much it takes to change steps. Defaults to `20`.
+   * @property {number} swipeIterateOnly - Regardless of swipe direction, the step is iterated. Defaults to `false`.
    * @property {number} animationSpeed - The transition animation speed. Defaults to `0`.
-   * @property {function} onBeforeChange - Called immediately before the slide is changed. Defaults to `() => {}`.
-   * @property {function} onChange - Called once the slide has changed. Defaults to `() => {}`.
-   * @property {function} onAfterChange - Called after the slide has changed and after animationSpeed seconds if present. Defaults to `() => {}`.
+   * @property {function} onBeforeChange - Called immediately before the step is changed. Defaults to `() => {}`.
+   * @property {function} onChange - Called once the step has changed. Defaults to `() => {}`.
+   * @property {function} onAfterChange - Called after the step has changed and after animationSpeed seconds if present. Defaults to `() => {}`.
    * @property {function} onPlay - Called when played. Defaults to `() => {}`.
    * @property {function} onPause - Called when paused. Defaults to `() => {}`.
-   * @property {function} onNext - Called when iterating to the next slide. Defaults to `() => {}`.
-   * @property {function} onPrevious - Called when iterating to the previous slide. Defaults to `() => {}`.
+   * @property {function} onNext - Called when iterating to the next step. Defaults to `() => {}`.
+   * @property {function} onPrevious - Called when iterating to the previous step. Defaults to `() => {}`.
    * @property {function} onSwipeStart - Called when swiping/dragging has begun. Defaults to `() => {}`.
    * @property {function} onSwipeMove - Called when a swipe/drag is moved. Warning: This gets called _a lot_. Defaults to `() => {}`.
    * @property {function} onSwipeEnd - Called when a swipe/drag is cancelled. Defaults to `() => {}`.
@@ -54,7 +54,7 @@ class DubStep extends Component {
    */
   static propTypes = {
     total: PropTypes.number,
-    defaultIndex: PropTypes.number,
+    defaultStep: PropTypes.number,
     cycle: PropTypes.bool,
     stepInterval: PropTypes.number,
     autoPlay: PropTypes.bool,
@@ -81,7 +81,7 @@ class DubStep extends Component {
 
   static defaultProps = {
     total: 0,
-    defaultIndex: 0,
+    defaultStep: 0,
     stepInterval: 1,
     cycle: false,
     swipe: false,
@@ -118,20 +118,20 @@ class DubStep extends Component {
   /**
    * @type {object}
    * @private
-   * @property {number} index - The current index of dub-step. Controlled.
-   * @property {boolean} paused - Is dub-step paused? Controlled.
-   * @property {boolean} animating - Is the slide transition animating?
-   * @property {boolean} swiping - Has the swipe threshold been reached?
-   * @property {boolean} dragging - Has the slide been initially dragged?
-   * @property {number} swipeLeftDistance - A number representing the distance slide has been dragged horizontally.
-   * @property {number} swipeDownDistance - A number representing the distance slide has been dragged vertically.
-   * @property {boolean} swiped - Has the slide been dragged enough to be moved to the next/previous slide?
-   * @property {number} swipeRatio - A number between 0 and 1 with nearness to 1 representing closeness to being swiped.
-   * @property {number} swipeDirectionSign - Either 1 or -1. 1 representing right and -1 representing left.
-   * @property {object} touchObject - Holds meta data used to calculate the swipe state.
+   * @property {number} step - state - The current step of dub-step. Controlled.
+   * @property {boolean} paused - state - Is dub-step paused? Controlled.
+   * @property {boolean} animating - state - Is the step component transition animating?
+   * @property {boolean} swiping - state - Has the swipe threshold been reached?
+   * @property {boolean} dragging - state - Has the step component been initially dragged?
+   * @property {number} swipeLeftDistance - state - A number representing the distance the step component has been dragged horizontally.
+   * @property {number} swipeDownDistance - state - A number representing the distance the step component has been dragged vertically.
+   * @property {boolean} swiped - state - Has the step component been dragged enough to be moved to the next/previous step?
+   * @property {number} swipeRatio - state - A number between 0 and 1 with nearness to 1 representing closeness to being swiped.
+   * @property {number} swipeDirectionSign - state - Either 1 or -1. 1 representing right and -1 representing left.
+   * @property {object} touchObject - Holds meta data used to calculate the swipe state. Not exposed through getStateAndHelpers.
    */
   state = {
-    index: this.getControlledProp('index', { index: this.props.defaultIndex }),
+    step: this.getControlledProp('step', { step: this.props.defaultStep }),
     paused: this.getControlledProp('paused', {
       paused: !this.props.autoPlay,
     }),
@@ -161,7 +161,8 @@ class DubStep extends Component {
     if (
       this.getControlledProp('paused') ||
       (this.props.duration &&
-        this.getControlledProp('index') === this.props.total - 1)
+        !this.props.cycle &&
+        this.getControlledProp('step') === this.props.total - 1)
     ) {
       this.interval = this.stopPlaying();
     } else if (this.props.duration && (prevProps.paused || prevState.paused)) {
@@ -173,7 +174,7 @@ class DubStep extends Component {
     return this.isPropControlled(prop) ? this.props[prop] : state[prop];
   }
 
-  getSlideProps = (props = {}) => ({
+  getStepProps = (props = {}) => ({
     ...props,
     onMouseDown: callAll(props.onMouseDown, this.swipeStart),
     onMouseMove: callAll(
@@ -183,7 +184,7 @@ class DubStep extends Component {
     onMouseUp: callAll(props.onMouseUp, this.swipeEnd),
     onMouseLeave: callAll(
       props.onMouseLeave,
-      this.state.dragging ? this.swipeEnd : () => {}
+      this.state.dragging ? this.swipeEnd : this.mouseLeave
     ),
     onTouchStart: callAll(props.onTouchStart, this.swipeStart),
     onTouchMove: callAll(
@@ -218,16 +219,16 @@ class DubStep extends Component {
     ...props,
     onClick: callAll(props.onClick, this.play),
   });
-  getIndexControlProps = ({ index, ...rest } = { index: 0 }) => ({
+  getStepControlProps = ({ step, ...rest } = { step: 0 }) => ({
     'aria-label': 'change',
     ...rest,
-    onClick: callAll(rest.onClick, () => this.changeSlide(index)),
+    onClick: callAll(rest.onClick, () => this.changeSlide(step)),
   });
 
-  setIndexState = (nextState, callback = () => {}) => {
+  setStepState = (nextState, callback = () => {}) => {
     this.interval = this.stopPlaying();
-    if (this.isPropControlled('index')) {
-      this.props.onChange(nextState.index, this.getStateAndHelpers());
+    if (this.isPropControlled('step')) {
+      this.props.onChange(nextState.step, this.getStateAndHelpers());
       callback();
     } else {
       this.setState(nextState, () => {
@@ -239,7 +240,7 @@ class DubStep extends Component {
           this.interval = this.startPlaying();
         }
         this.props.onChange(
-          this.getControlledProp('index'),
+          this.getControlledProp('step'),
           this.getStateAndHelpers()
         );
         callback();
@@ -254,89 +255,90 @@ class DubStep extends Component {
     this.setState({ paused });
   };
 
-  getNextIndex(index = this.getControlledProp('index')) {
+  getNextStep(step = this.getControlledProp('step')) {
     if (this.props.total) {
       if (this.props.cycle) {
-        if (index + this.props.stepInterval > this.props.total - 1) {
+        if (step + this.props.stepInterval > this.props.total - 1) {
           return 0;
         }
-      } else if (index + this.props.stepInterval > this.props.total - 1) {
+      } else if (step + this.props.stepInterval > this.props.total - 1) {
         return this.props.total - 1;
       }
     }
-    return index + this.props.stepInterval;
+    return step + this.props.stepInterval;
   }
 
-  getPreviousIndex(index = this.getControlledProp('index')) {
+  getPreviousStep(step = this.getControlledProp('step')) {
     if (this.props.total) {
       if (this.props.cycle) {
-        if (index - this.props.stepInterval < 0) {
+        if (step - this.props.stepInterval < 0) {
           return this.props.total - 1;
         }
-      } else if (index - this.props.stepInterval < 0) {
+      } else if (step - this.props.stepInterval < 0) {
         return 0;
       }
     }
-    return index - this.props.stepInterval;
+    return step - this.props.stepInterval;
   }
 
-  getValidIndex(indexOffset) {
+  getValidStep(stepOffset) {
     if (this.props.total) {
       if (this.props.cycle) {
-        return this.getControlledProp('index') + indexOffset - this.props.total;
+        return this.getControlledProp('step') + stepOffset - this.props.total;
       }
-      if (this.getControlledProp('index') + indexOffset < 0) {
+      if (this.getControlledProp('step') + stepOffset < 0) {
         return 0;
       } else if (
-        this.getControlledProp('index') + indexOffset >
+        this.getControlledProp('step') + stepOffset >
         this.props.total - 1
       ) {
         return this.props.total - 1;
       }
     }
-    return this.getControlledProp('index') + indexOffset;
+    return this.getControlledProp('step') + stepOffset;
   }
 
   /**
    * The state of dub-step and prop getters/actions for changing the state are exposed as a parameter to the render prop.
    *
-   * The paramters of this function can be split into three categories: State, Prop getters, and Actions.
+   * The paramters of this function can be split into 4 categories: State, Components, Actions.
    * - *State:* State properties of dub-step exposed to your render code. Controlled state can be passed as a prop and "controlled"
    *  by an outside component/router/store.
-   * - *Prop getters:* Functions named like get*ControlProps. They are used to apply props to the elements that you render.
-   *  This gives you maximum flexibility to render what, when, and wherever you like.
-   *  You call these on the element in question (for example: `<button {...getNextControlProps()}))>Next</button>`.
+   * - *Components* Components that control the current step. They take a `component` prop which allows you to control your UI,
+   *  add internal props, and pass through any additional props you add. Examples include: Step, Next, Previous, Play, Pause.
+   *  _NOTE:_ Each component has an alternative and respective "prop getter", if that pattern is preferred. These are functions named get*ControlProps.
+   *  Call/spread these on the element you're rendering for a given purpose. For example: `<button {...getNextControlProps(otherProps)}))>Next</button>`.
    *  It's advisable to pass all your props to that function rather than applying them on the element yourself to avoid your props being overridden (or overriding the props returned).
    * - *Actions:* Call these to directly change the state of dub-step.
    *
    * @typedef {object} StateAndHelpers
    *
-   * @property {number} index - state - The current index of dub-step. Controlled.
+   * @property {number} step - state - The current step of dub-step. Controlled.
    * @property {boolean} paused - state - Is dub-step paused? Controlled.
-   * @property {boolean} animating - state - Is the slide transition animating?
+   * @property {boolean} animating - state - Is the step component transition animating?
    * @property {boolean} swiping - state - Has the swipe threshold been reached?
-   * @property {boolean} dragging - state - Has the slide been initially dragged?
-   * @property {number} swipeLeftDistance - state - A number representing the distance slide has been dragged horizontally.
-   * @property {number} swipeDownDistance - state - A number representing the distance slide has been dragged vertically.
-   * @property {boolean} swiped - state - Has the slide been dragged enough to be moved to the next/previous slide?
+   * @property {boolean} dragging - state - Has the step component been initially dragged?
+   * @property {number} swipeLeftDistance - state - A number representing the distance the step component has been dragged horizontally.
+   * @property {number} swipeDownDistance - state - A number representing the distance the step component has been dragged vertically.
+   * @property {boolean} swiped - state - Has the step component been dragged enough to be moved to the next/previous step?
    * @property {number} swipeRatio - state - A number between 0 and 1 with nearness to 1 representing closeness to being swiped.
    * @property {number} swipeDirectionSign - state - Either 1 or -1. 1 representing right and -1 representing left.
-   * @property {function} getNextControlProps - Prop getter - Returns the props you should apply to a next button element you render.
-   *    This button will be responsible for incrementing the index by the stepInterval value.
-   * @property {function} getPreviousControlProps - Prop getter - Returns the props you should apply to a previous/back button element you render.
-   *    This button will be responsible for decrementing the index by the stepInterval value.
-   * @property {function} getPauseControlProps - Prop getter - Returns the props you should apply to a previous button element you render.
-   *    This button will be responsible for decrementing the index by the stepInterval value.
-   * @property {function} getPlayControlProps - Prop getter - Returns the props you should apply to a play button element you render.
-   *    This button will be responsible for starting an internal interval that increments the index by the stepInterval value.
-   * @property {function} getPauseControlProps - Prop getter - Returns the props you should apply to a pause button element you render.
-   *    This button will be responsible for clearing an internal interval that increments the index by the stepInterval value.
-   * @property {function} getIndexControlProps - Prop getter - Returns the props you should apply to an element you render that sets the index of dub-step.
-   *    This button will be responsible for setting the index of dub-step. _NOTE: It takes an object with an index property as a parameter._
-   * @property {function} getSlideProps - Prop getter - Returns the props you should apply to an element you render that is expected to have swipe/drag interactions.
-   *    This button will be responsible for tracking touch/drag interactions and sets dub-steps swipe state properties respectively.
-   * @property {function} next - Action - Increments the index by the stepInterval.
-   * @property {function} previous - Action - Decrements the index by the stepInterval.
+   * 
+   * @property {ReactElement} Step - Component - This component is responsible for tracking touch/drag interactions and sets dub-steps swipe state properties respectively.
+   *  Alternatively, use `getStepProps` if you prefer the prop getter patern. Returns the props you should apply to an element you render that is expected to have swipe/drag interactions.
+   * @property {ReactElement} Next - Component - This component is responsible for incrementing the step by the stepInterval value.
+   *  Alternatively, use `getNextControlProps` if you prefer the prop getter pattern. It returns the props you should apply to a next button element you render.
+   * @property {ReactElement} Previous - Component - This component is responsible for decrementing the step by the stepInterval value.
+   *  Alternatively, use `getPreviousControlProps` if you prefer the prop getter patern. It returns the props you should apply to a previous/back button element you render.
+   * @property {ReactElement} Play - Component - This component is responsible for starting an internal interval that increments the step by the stepInterval value.
+   *  Alternatively, use `getPlayControlProps` if you prefer the prop getter patern. It returns the props you should apply to a play button element you render.
+   * @property {ReactElement} Pause - Component - This component is responsible for clearing an internal interval that increments the step by the stepInterval value.
+   *  Alternatively, use `getPauseControlProps` if you prefer the prop getter patern. It returns the props you should apply to a pause button element you render.
+   * @property {ReactElement} StepIndex - Component - This component is responsible for setting the current step of dub-step. _NOTE: It takes a step prop representing the step to which dub-step should change._
+   *  Alternatively, use `getStepControlProps` if you prefer the prop getter patern. It returns the props you should apply to an element you render that sets the step of dub-step.
+   * 
+   * @property {function} next - Action - Increments the step by the stepInterval.
+   * @property {function} previous - Action - Decrements the step by the stepInterval.
    * @property {function} play - Action - Starts the dub-step incrementor interval.
    * @property {function} pause - Action - Pauses dub-step.
    */
@@ -350,7 +352,8 @@ class DubStep extends Component {
    */
   getStateAndHelpers() {
     return {
-      index: this.getControlledProp('index'),
+      // State
+      step: this.getControlledProp('step'),
       paused: this.getControlledProp('paused'),
       animating: this.state.animating,
       swiping: this.state.swiping,
@@ -360,18 +363,127 @@ class DubStep extends Component {
       swiped: this.state.swiped,
       swipeRatio: this.state.swipeRatio,
       swipeDirectionSign: this.state.swipeDirectionSign,
+      // Component/Prop getters
+      Next: this.Next,
       getNextControlProps: this.getNextControlProps,
+      Previous: this.Previous,
       getPreviousControlProps: this.getPreviousControlProps,
+      Pause: this.Pause,
       getPauseControlProps: this.getPauseControlProps,
+      Play: this.Play,
       getPlayControlProps: this.getPlayControlProps,
-      getIndexControlProps: this.getIndexControlProps,
-      getSlideProps: this.getSlideProps,
+      StepIndex: this.StepIndex,
+      getStepControlProps: this.getStepControlProps,
+      Step: this.Step,
+      getStepProps: this.getStepProps,
+      // Actions
       next: this.next,
       previous: this.previous,
       pause: this.pause,
       play: this.play,
     };
   }
+
+  /**
+   * This component is responsible for tracking touch/drag interactions and sets dub-steps swipe state properties respectively.
+   * 
+   * @example
+   * // In this example, GlamorousDogeImg is a glamorous.img. The only required prop here is component. The rest gets passed through for glamorous to for styling purposes (Like css transforms).
+   * // NOTE: Glamorous is only used as an example. Any kind of component can be passed to the component prop.
+   * // If no component is passed, a div will be used.
+   * <Step
+   *  component={GlamorousDogeImg}
+   *  swipeLeftDistance={swipeLeftDistance}
+   *  dragging={dragging}
+   *  src={url}
+   *  alt="doge pic"
+   * />
+   * 
+   * @param {object} props
+   * @param {ReactElement|string} [props.component=div] The element to render
+   * @return {ReactElement}
+   */
+  Step = ({ component: Comp = 'div', ...otherProps }) => (
+    <Comp {...this.getStepProps(otherProps)} />
+  );
+
+  /**
+   * This component is responsible for incrementing the step by the stepInterval value.
+   * 
+   * @example
+   * <Next>Next</Next>
+   * 
+   * @param {object} props
+   * @param {ReactElement|string} [props.component=button] The element to render
+   * @return {ReactElement}
+   */
+  Next = ({ component: Comp = 'button', ...otherProps }) => (
+    <Comp {...this.getNextControlProps(otherProps)} />
+  );
+
+  /**
+   * This component is responsible for decrementing the step by the stepInterval value.
+   * 
+   * @example
+   * <Previous>Previous</Previous>
+   *
+   * @param {object} props
+   * @param {ReactElement|string} [props.component=button] The element to render
+   * @return {ReactElement}
+   */
+  Previous = ({ component: Comp = 'button', ...otherProps }) => (
+    <Comp {...this.getPreviousControlProps(otherProps)} />
+  );
+
+  /**
+   * This component is responsible for starting an internal interval that increments the step by the stepInterval value.
+   * 
+   * @example
+   * // Any dub-step component can be customized by passing a `component` prop.
+   * <Play component={MyCustomPlayButton}>Play</Play>
+   * 
+   * @param {object} props
+   * @param {ReactElement|string} [props.component=button] The element to render
+   * @return {ReactElement}
+   */
+  Play = ({ component: Comp = 'button', ...otherProps }) => (
+    <Comp {...this.getPlayControlProps(otherProps)} />
+  );
+
+  /**
+   * This component is responsible for clearing an internal interval that increments the step by the stepInterval value.
+   * 
+   * @example
+   * <Pause>Stop</Pause>
+   * 
+   * @param {object} props
+   * @param {ReactElement|string} [props.component=button] The element to render
+   * @return {ReactElement}
+   */
+  Pause = ({ component: Comp = 'button', ...otherProps }) => (
+    <Comp {...this.getPauseControlProps(otherProps)} />
+  );
+
+  /**
+   * This component is responsible for setting the current step of dub-step.
+   * 
+   * @example
+   * // Remember, any other prop added gets passed through to the component.
+   * <StepIndex
+   *   step={index}
+   *   onMouseEnter={() => console.log(`About to switch to step ${index}`)}
+   * >
+   *   {stepNumber}
+   * </StepIndex>
+   *
+   * @param {object} props
+   * @param {number} step The step to which dub-step should change.
+   * @param {ReactElement|string} [props.component=button] The element to render
+   * @return {ReactElement}
+   */
+  StepIndex = ({ component: Comp = 'button', step, ...otherProps }) => (
+    <Comp {...this.getStepControlProps({ step, ...otherProps })} />
+  );
 
   isPropControlled(prop) {
     return this.props[prop] !== undefined;
@@ -388,14 +500,14 @@ class DubStep extends Component {
   }
 
   next = () => {
-    const nextIndex = this.getNextIndex();
-    this.props.onNext(nextIndex, this.getStateAndHelpers());
-    return this.changeSlide(nextIndex);
+    const nextStep = this.getNextStep();
+    this.props.onNext(nextStep, this.getStateAndHelpers());
+    return this.changeSlide(nextStep);
   };
   previous = () => {
-    const previousIndex = this.getPreviousIndex();
-    this.props.onPrevious(previousIndex, this.getStateAndHelpers());
-    this.changeSlide(previousIndex);
+    const previousStep = this.getPreviousStep();
+    this.props.onPrevious(previousStep, this.getStateAndHelpers());
+    this.changeSlide(previousStep);
   };
   pause = () => {
     if (!this.isPropControlled('paused')) {
@@ -569,22 +681,22 @@ class DubStep extends Component {
       }
     }
   };
-  changeSlide = index => {
+  changeSlide = step => {
     if (this.props.onBeforeChange) {
-      this.props.onBeforeChange(index, this.getStateAndHelpers());
+      this.props.onBeforeChange(step, this.getStateAndHelpers());
     }
 
     const nextStateChanges = {
       animating: false,
-      index,
+      step,
       swipeLeftDistance: 0,
       swipeDownDistance: 0,
     };
 
     const callback = () => {
-      this.setIndexState(nextStateChanges, () => {
+      this.setStepState(nextStateChanges, () => {
         if (this.props.onAfterChange) {
-          this.props.onAfterChange(index, this.getStateAndHelpers());
+          this.props.onAfterChange(step, this.getStateAndHelpers());
         }
         delete this.animationEndCallback;
       });
