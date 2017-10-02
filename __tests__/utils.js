@@ -1,4 +1,4 @@
-import { callAll, unwrapArray, getSign } from '../utils';
+import { callAll, unwrapArray, getSign } from '../src/utils';
 
 test('getSign returns the sign of a number.', () => {
   expect(getSign(-135)).toBe(-1);
