@@ -1,8 +1,7 @@
 {
   "name": "dub-step",
-  "version": "0.0.4",
-  "description":
-    "A set of primitives for building step/index based UI widgets controlled by swipe, timers, and/or buttons.",
+  "version": "0.0.5",
+  "description": "A set of primitives for building step/index based UI widgets controlled by swipe, timers, and/or buttons.",
   "main": "dist/dub-step.js",
   "repository": "git@github.com:infiniteluke/dub-step.git",
   "keywords": [
@@ -26,18 +25,15 @@
   "scripts": {
     "test": "jest --coverage",
     "test:watch": "BABEL_ENV=test jest --watch --coverage",
-    "test:ci":
-      "jest --coverage && cat ./__coverage__/lcov.info | coveralls && npm run size",
+    "test:ci": "jest --coverage && cat ./__coverage__/lcov.info | coveralls && npm run size",
     "size": "size-limit",
     "start": "BABEL_ENV=development webpack --watch",
     "build": "BABEL_ENV=production webpack",
     "prettier": "prettier --write \"src/**/*.js\"",
     "lint": "eslint src --ignore-path .gitignore --ignore-pattern docs .",
-    "documentation":
-      "BABEL_ENV=development documentation build src/** -f html -o docs",
+    "documentation": "BABEL_ENV=development documentation build src/** -f html -o docs",
     "prepublish": "npm run build",
-    "precommit":
-      "lint-staged && npm run lint && npm run test && npm run documentation && git add docs"
+    "precommit": "lint-staged && npm run lint && npm run test && npm run documentation && git add docs"
   },
   "peerDependencies": {
     "prop-types": ">=15",
@@ -88,9 +84,15 @@
         "statements": 10
       }
     },
-    "testMatch": ["<rootDir>/__tests__/**/*.js"],
-    "snapshotSerializers": ["enzyme-to-json/serializer"],
-    "setupFiles": ["<rootDir>/testSetup.js"],
+    "testMatch": [
+      "<rootDir>/__tests__/**/*.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "setupFiles": [
+      "<rootDir>/testSetup.js"
+    ],
     "coveragePathIgnorePatterns": [
       "<rootDir>/node_modules/",
       "<rootDir>/testSetup.js"
@@ -98,6 +100,9 @@
     "clearMocks": true
   },
   "lint-staged": {
-    "**/*.js": ["prettier --write", "git add"]
+    "**/*.js": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
