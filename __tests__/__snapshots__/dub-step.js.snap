@@ -1,0 +1,179 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Next component increments step 1`] = `
+<DubStep
+  animationSpeed={0}
+  autoPlay={false}
+  cycle={false}
+  defaultStep={0}
+  draggable={false}
+  duration={0}
+  onAfterChange={[Function]}
+  onBeforeChange={[Function]}
+  onChange={[Function]}
+  onNext={[Function]}
+  onPause={[Function]}
+  onPlay={[Function]}
+  onPrevious={[Function]}
+  onSwipeEnd={[Function]}
+  onSwipeMove={[Function]}
+  onSwipeStart={[Function]}
+  pauseOnHover={false}
+  stepInterval={1}
+  swipe={false}
+  swipeIterateOnly={false}
+  total={0}
+  touchThreshold={20}
+  vertical={false}
+>
+  <Component
+    className="next"
+  >
+    <button
+      aria-label="next"
+      className="next"
+      onClick={[Function]}
+    >
+      Next 
+      1
+    </button>
+  </Component>
+</DubStep>
+`;
+
+exports[`Play/Pause component start/stop timer 1`] = `
+<DubStep
+  animationSpeed={0}
+  autoPlay={false}
+  cycle={false}
+  defaultStep={0}
+  draggable={false}
+  duration={150}
+  onAfterChange={[Function]}
+  onBeforeChange={[Function]}
+  onChange={[Function]}
+  onNext={[Function]}
+  onPause={[Function]}
+  onPlay={[Function]}
+  onPrevious={[Function]}
+  onSwipeEnd={[Function]}
+  onSwipeMove={[Function]}
+  onSwipeStart={[Function]}
+  pauseOnHover={false}
+  stepInterval={1}
+  swipe={false}
+  swipeIterateOnly={false}
+  total={0}
+  touchThreshold={20}
+  vertical={false}
+>
+  <div>
+    true
+    <Component
+      className="pause"
+    >
+      <button
+        aria-label="pause"
+        className="pause"
+        onClick={[Function]}
+      >
+        Pause
+      </button>
+    </Component>
+    <Component
+      className="play"
+    >
+      <button
+        aria-label="play"
+        className="play"
+        onClick={[Function]}
+      >
+        Play
+      </button>
+    </Component>
+  </div>
+</DubStep>
+`;
+
+exports[`Previous component decrements step 1`] = `
+<DubStep
+  animationSpeed={0}
+  autoPlay={false}
+  cycle={false}
+  defaultStep={0}
+  draggable={false}
+  duration={0}
+  onAfterChange={[Function]}
+  onBeforeChange={[Function]}
+  onChange={[Function]}
+  onNext={[Function]}
+  onPause={[Function]}
+  onPlay={[Function]}
+  onPrevious={[Function]}
+  onSwipeEnd={[Function]}
+  onSwipeMove={[Function]}
+  onSwipeStart={[Function]}
+  pauseOnHover={false}
+  stepInterval={1}
+  swipe={false}
+  swipeIterateOnly={false}
+  total={0}
+  touchThreshold={20}
+  vertical={false}
+>
+  <Component
+    className="previous"
+  >
+    <button
+      aria-label="previous"
+      className="previous"
+      onClick={[Function]}
+    >
+      Back 
+      -1
+    </button>
+  </Component>
+</DubStep>
+`;
+
+exports[`StepIndex component changes step to given number 1`] = `
+<DubStep
+  animationSpeed={0}
+  autoPlay={false}
+  cycle={false}
+  defaultStep={0}
+  draggable={false}
+  duration={0}
+  onAfterChange={[Function]}
+  onBeforeChange={[Function]}
+  onChange={[Function]}
+  onNext={[Function]}
+  onPause={[Function]}
+  onPlay={[Function]}
+  onPrevious={[Function]}
+  onSwipeEnd={[Function]}
+  onSwipeMove={[Function]}
+  onSwipeStart={[Function]}
+  pauseOnHover={false}
+  stepInterval={1}
+  swipe={false}
+  swipeIterateOnly={false}
+  total={0}
+  touchThreshold={20}
+  vertical={false}
+>
+  <Component
+    className="index"
+    step={4}
+  >
+    <button
+      aria-label="change"
+      className="index"
+      onClick={[Function]}
+    >
+      Go To 
+      4
+    </button>
+  </Component>
+</DubStep>
+`;

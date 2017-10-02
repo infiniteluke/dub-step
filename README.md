@@ -3,7 +3,7 @@
     </br>
     <img src="https://user-images.githubusercontent.com/1127238/30524706-690c72e0-9bad-11e7-9feb-4c76f572bdfc.png" alt="dub-step logo" title="dub-step logo" width="100">
 </h1>
-<p align="center">Primitives for building index based UI widgets controlled by swipe, timers, and/or buttons.</p>
+<p align="center">Primitives for building step/index based UI widgets controlled by swipe, timers, and/or buttons.</p>
 <hr />
 
 [![Travis](https://img.shields.io/travis/infiniteluke/dub-step.svg?style=flat-square)](https://travis-ci.org/infiniteluke/dub-step)
@@ -18,6 +18,8 @@
 Many existing carousel/swipe solutions in one way or another end up dictating the markup of your UI. They expose many options to allow for extensibility, but this results in a convoluted API that is not flexible. In these cases, your often very specific design must be fit into an existing rigid solution.
 
 dub-step simply manages the state needed to power a carousel, slideshow, photo gallery, or even multi-step forms, allowing you to build the UI how you want. It uses the [function as child](https://medium.com/merrickchristensen/function-as-child-components-5f3920a9ace9) and "prop getter" patterns, which gives you maximum flexibility with a minimal API.
+
+_NOTE: Version v0.0.5 introduced a breaking change. All occurences of `index` in the dub-step API were renamed to `step`, for consistency. Please see [the docs](https://infiniteluke.github.io/dub-step) for more info.
 
 ## Table of Contents
 
@@ -57,18 +59,18 @@ function BasicSlideshow({slides, onChange}) {
       total={slides.length}
     >
       {({
-        getNextControlProps,
-        getPreviousControlProps,
-        getPauseControlProps,
-        getPlayControlProps,
-        getIndexControlProps,
-        index
+        Next,
+        Previous,
+        Pause,
+        Play,
+        StepIndex,
+        step
       }) => (
         <section>
           <Div width="350px" overflow="hidden" margin="0 auto">
             <Div
               display="flex"
-              transform={`translate3d(${-index * 350}px, 0, 0)`}
+              transform={`translate3d(${-step * 350}px, 0, 0)`}
               transition="all .3s ease-in-out"
             >
               {slides.map((url, i) => <Img src={url} alt="doge pic" width="100%" height="100%" />)}
@@ -76,23 +78,24 @@ function BasicSlideshow({slides, onChange}) {
           </Div>
           <Div display="flex" justifyContent="center">
             {slides.map((url, i) => (
-              <Img
-                {...getIndexControlProps({ index: i })}
+              <StepIndex
+                component={Img}
+                key={i}
                 src={url}
                 width="30px"
                 height="30px"
                 margin="5px"
                 padding="2px"
-                border={i === index ? '1px solid darkgray' : 'none'}
-                transform={`scale(${i === index ? 1.2 : 1})`}
+                border={i === step ? '1px solid darkgray' : 'none'}
+                transform={`scale(${i === step ? 1.2 : 1})`}
               />
             ))}
           </Div>
           <Div display="flex" justifyContent="center">
-            <button {...getPreviousControlProps()}>Previous</button>
-            <button {...getNextControlProps()}>Next</button>
-            <button {...getPlayControlProps()}>Play</button>
-            <button {...getPauseControlProps()}>Pause</button>
+            <Previous>Previous</Previous>
+            <Next>Next</Next>
+            <Play>Play</Play>
+            <Pause>Pause</Pause>
           </Div>
         </section>
       )}
@@ -120,8 +123,7 @@ function App() {
 Builds...</br>
 ![simpleslideshow](https://user-images.githubusercontent.com/1127238/30525038-b6b6cd5a-9bb3-11e7-9699-cac9f0bed3d2.gif)
 
-In the example of above, the props returned by the get*ControlProps parameters empower any element in your UI to control the state of the slideshow. The index is used in coordination with a css transform/transition to animate the changing slides. 
-`dub-step` is the only component. It doesn't render anything itself, it just calls the child function and renders that. Wrap everything in `<DubStep>{/* your function here! */}</DubStep>`.
+In the example of above, the `step` is used in coordination with a css transform/transition to animate the changing slides.
 
 ## Props
 
@@ -129,7 +131,7 @@ See the [API Docs](https://infiniteluke.github.io/dub-step/#dubstepproptypes) fo
 
 ## Control Props
 
-dub-step manages its own state internally and calls your `onChange`/`OnPlay`/`OnPause` etc. handlers with any relevant changes. The controllable state that dub-step manages includes: `index` and `paused`. Your child callback function (read more below) can be used to manipulate this state from within the render function and can likely support many of your use cases.
+dub-step manages its own state internally and calls your `onChange`/`OnPlay`/`OnPause` etc. handlers with any relevant changes. The controllable state that dub-step manages includes: `step` and `paused`. Your child callback function (read more below) can be used to manipulate this state from within the render function and can likely support many of your use cases.
 
 However, if more control is needed, you can pass any of these pieces of state as a prop (as indicated above) and that state becomes controlled. As soon as `this.props[controllableStatePropKey] !== undefined`, internally, dub-step will determine its state based on your prop's value rather than its own internal state. You will be required to keep the state up to date, but you can also control the state from anywhere, be that state from other components, redux, react-router, or anywhere else.
 
@@ -141,7 +143,7 @@ This is where you render whatever you want to based on the state of dub-step. Th
 </DubStep>
 ```
 
-The paramters of this function can be split into three categories: State, Prop getters, and Actions.
+The paramters of this function can be split into three categories: State, Components, and Actions.
 
 See the [API Docs](https://infiniteluke.github.io/dub-step/#stateandhelpers) for a list of these properties.
 

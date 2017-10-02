@@ -1,7 +1,8 @@
 {
   "name": "dub-step",
   "version": "0.0.4",
-  "description": "A set of primitives for building index based UI widgets controlled by swipe, timers, and/or buttons.",
+  "description":
+    "A set of primitives for building step/index based UI widgets controlled by swipe, timers, and/or buttons.",
   "main": "dist/dub-step.js",
   "repository": "git@github.com:infiniteluke/dub-step.git",
   "keywords": [
@@ -11,6 +12,7 @@
     "swipe",
     "slideshow",
     "index",
+    "step",
     "accessibility",
     "WAI-ARIA",
     "function as child",
@@ -24,15 +26,18 @@
   "scripts": {
     "test": "jest --coverage",
     "test:watch": "BABEL_ENV=test jest --watch --coverage",
-    "test:ci": "jest --coverage && cat ./__coverage__/lcov.info | coveralls && npm run size",
+    "test:ci":
+      "jest --coverage && cat ./__coverage__/lcov.info | coveralls && npm run size",
     "size": "size-limit",
     "start": "BABEL_ENV=development webpack --watch",
     "build": "BABEL_ENV=production webpack",
     "prettier": "prettier --write \"src/**/*.js\"",
     "lint": "eslint src --ignore-path .gitignore --ignore-pattern docs .",
-    "documentation": "BABEL_ENV=development documentation build src/** -f html -o docs",
+    "documentation":
+      "BABEL_ENV=development documentation build src/** -f html -o docs",
     "prepublish": "npm run build",
-    "precommit": "lint-staged && npm run lint && npm run test && npm run documentation && git add docs"
+    "precommit":
+      "lint-staged && npm run lint && npm run test && npm run documentation && git add docs"
   },
   "peerDependencies": {
     "prop-types": ">=15",
@@ -46,7 +51,9 @@
     "babel-preset-react-app": "^3.0.2",
     "coveralls": "^2.13.1",
     "documentation": "^5.3.2",
-    "enzyme": "^2.9.1",
+    "enzyme": "^3.0.0",
+    "enzyme-adapter-react-15": "^1.0.0",
+    "enzyme-to-json": "^3.0.1",
     "eslint": "^4.7.0",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-config-prettier": "^2.5.0",
@@ -81,14 +88,16 @@
         "statements": 10
       }
     },
-    "testMatch": [
-      "<rootDir>/src/__tests__/**/*.js"
-    ]
+    "testMatch": ["<rootDir>/__tests__/**/*.js"],
+    "snapshotSerializers": ["enzyme-to-json/serializer"],
+    "setupFiles": ["<rootDir>/testSetup.js"],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/testSetup.js"
+    ],
+    "clearMocks": true
   },
   "lint-staged": {
-    "**/*.js": [
-      "prettier --write",
-      "git add"
-    ]
+    "**/*.js": ["prettier --write", "git add"]
   }
 }
