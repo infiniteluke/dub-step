@@ -80,6 +80,7 @@ function BasicSlideshow({slides, onChange}) {
             {slides.map((url, i) => (
               <StepIndex
                 component={Img}
+                step={i}
                 key={i}
                 src={url}
                 width="30px"
