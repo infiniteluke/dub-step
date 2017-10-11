@@ -169,6 +169,11 @@ class DubStep extends Component {
       this.interval = this.startPlaying();
     }
   }
+  componentWillUnmount() {
+    if (this.interval) {
+      this.stopPlaying();
+    }
+  }
 
   getControlledProp(prop, state = this.state) {
     return this.isPropControlled(prop) ? this.props[prop] : state[prop];
