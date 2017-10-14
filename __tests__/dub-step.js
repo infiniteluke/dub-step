@@ -27,6 +27,17 @@ test('Starts playing on mount if duration/autoPlay is provided', () => {
   expect(spy).toHaveBeenCalled();
 });
 
+test('Stops playing on will unmount if is provided', () => {
+  const spy = jest.spyOn(DubStep.prototype, 'stopPlaying');
+  const element = mount(
+    <DubStep autoPlay duration={150}>
+      {({ step }) => <div>{step}</div>}
+    </DubStep>
+  );
+  element.unmount();
+  expect(spy).toHaveBeenCalled();
+});
+
 test('Play/Pause component start/stop timer', () => {
   const pauseSpy = jest.fn();
   const playSpy = jest.fn();
@@ -50,10 +61,35 @@ test('Play/Pause component start/stop timer', () => {
   expect(element).toMatchSnapshot();
 });
 
+test('animating is set if animationSpeed is provided', done => {
+  const element = mount(
+    <DubStep animationSpeed={20}>
+      {({ Next, animating }) => (
+        <Next className="next">Next {animating && '✨'}</Next>
+      )}
+    </DubStep>
+  );
+  expect(element.state().animating).toBe(false);
+  element.find('button.next').simulate('click');
+  expect(element.state().animating).toBe(true);
+  setTimeout(() => {
+    expect(element.state().animating).toBe(false);
+    done();
+  }, 25);
+});
+
 test('Next component increments step', () => {
   const onNextSpy = jest.fn();
+  const onBeforeChangeSpy = jest.fn();
+  const onChangeSpy = jest.fn();
+  const onAfterChangeSpy = jest.fn();
   const element = mount(
-    <DubStep onNext={onNextSpy}>
+    <DubStep
+      onNext={onNextSpy}
+      onBeforeChange={onBeforeChangeSpy}
+      onChange={onChangeSpy}
+      onAfterChange={onAfterChangeSpy}
+    >
       {({ Next, step }) => <Next className="next">Next {step}</Next>}
     </DubStep>
   );
@@ -61,13 +97,24 @@ test('Next component increments step', () => {
   element.find('button.next').simulate('click');
   expect(element.state().step).toBe(1);
   expect(onNextSpy).toHaveBeenCalled();
+  expect(onBeforeChangeSpy).toHaveBeenCalled();
+  expect(onChangeSpy).toHaveBeenCalled();
+  expect(onAfterChangeSpy).toHaveBeenCalled();
   expect(element).toMatchSnapshot();
 });
 
 test('Previous component decrements step', () => {
   const onPrevSpy = jest.fn();
+  const onBeforeChangeSpy = jest.fn();
+  const onChangeSpy = jest.fn();
+  const onAfterChangeSpy = jest.fn();
   const element = mount(
-    <DubStep onPrevious={onPrevSpy}>
+    <DubStep
+      onPrevious={onPrevSpy}
+      onBeforeChange={onBeforeChangeSpy}
+      onChange={onChangeSpy}
+      onAfterChange={onAfterChangeSpy}
+    >
       {({ Previous, step }) => (
         <Previous className="previous">Back {step}</Previous>
       )}
@@ -77,13 +124,23 @@ test('Previous component decrements step', () => {
   element.find('button.previous').simulate('click');
   expect(element.state().step).toBe(-1);
   expect(onPrevSpy).toHaveBeenCalled();
+  expect(onBeforeChangeSpy).toHaveBeenCalled();
+  expect(onChangeSpy).toHaveBeenCalled();
+  expect(onAfterChangeSpy).toHaveBeenCalled();
   expect(element).toMatchSnapshot();
 });
 
 test('StepIndex component changes step to given number', () => {
   const STEP = 4;
+  const onBeforeChangeSpy = jest.fn();
+  const onChangeSpy = jest.fn();
+  const onAfterChangeSpy = jest.fn();
   const element = mount(
-    <DubStep>
+    <DubStep
+      onBeforeChange={onBeforeChangeSpy}
+      onChange={onChangeSpy}
+      onAfterChange={onAfterChangeSpy}
+    >
       {({ StepIndex }) => (
         <StepIndex step={STEP} className="index">
           Go To {STEP}
@@ -94,5 +151,8 @@ test('StepIndex component changes step to given number', () => {
   expect(element.state().step).toBe(0);
   element.find('button.index').simulate('click');
   expect(element.state().step).toBe(STEP);
+  expect(onBeforeChangeSpy).toHaveBeenCalled();
+  expect(onChangeSpy).toHaveBeenCalled();
+  expect(onAfterChangeSpy).toHaveBeenCalled();
   expect(element).toMatchSnapshot();
 });

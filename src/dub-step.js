@@ -286,23 +286,6 @@ class DubStep extends Component {
     return step - this.props.stepInterval;
   }
 
-  getValidStep(stepOffset) {
-    if (this.props.total) {
-      if (this.props.cycle) {
-        return this.getControlledProp('step') + stepOffset - this.props.total;
-      }
-      if (this.getControlledProp('step') + stepOffset < 0) {
-        return 0;
-      } else if (
-        this.getControlledProp('step') + stepOffset >
-        this.props.total - 1
-      ) {
-        return this.props.total - 1;
-      }
-    }
-    return this.getControlledProp('step') + stepOffset;
-  }
-
   /**
    * The state of dub-step and prop getters/actions for changing the state are exposed as a parameter to the render prop.
    *
