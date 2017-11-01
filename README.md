@@ -23,6 +23,8 @@ _NOTE: Version v0.0.5 introduced a breaking change. All occurences of `index` in
 
 ## Table of Contents
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/infiniteluke/dub-step.svg)](https://greenkeeper.io/)
+
 * [Installation](#installation)
 * [Usage](#usage)
 * [Props](#props)
