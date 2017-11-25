@@ -36,7 +36,7 @@ _NOTE: Version v0.0.5 introduced a breaking change. All occurences of `index` in
 - [How To Render](#how-to-render)
 - [Examples](#examples)
 - [Credits](#credits)
-- [Contributors](#contributors)
+- [Contributing](#contributing)
 - [License](#license)
 
 <!-- tocstop -->
@@ -189,7 +189,10 @@ Some of the time spent writting this package was sponsored by [Four Kitchens](ht
 </a>
 
 
-## Contributors
+## Contributing
+
+If you'd like to make emdaer better, please read our [guide to contributing](./CONTRIBUTING.md).
+
 These wonderful people have contributed to dub-step in one way or another:
 <details>
 <summary><strong>Contributors</strong></summary><br />

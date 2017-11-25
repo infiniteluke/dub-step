@@ -100,7 +100,10 @@
   - path: .emdaer/README/credits.md
 -->
 
-## Contributors
+## Contributing
+
+If you'd like to make emdaer better, please read our [guide to contributing](./CONTRIBUTING.md).
+
 These wonderful people have contributed to dub-step in one way or another:
 <!--emdaer-p
   - '@emdaer/plugin-contributors-details-github'
