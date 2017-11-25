@@ -1,6 +1,6 @@
 {
   "name": "dub-step",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A set of primitives for building step/index based UI widgets controlled by swipe, timers, and/or buttons.",
   "main": "dist/dub-step.js",
   "repository": "git@github.com:infiniteluke/dub-step.git",
