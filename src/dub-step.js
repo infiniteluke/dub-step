@@ -541,7 +541,8 @@ class DubStep extends Component {
     }
     const posX = e.touches !== undefined ? e.touches[0].pageX : e.clientX;
     const posY = e.touches !== undefined ? e.touches[0].pageY : e.clientY;
-    this.targetSize = e.target[this.props.vertical ? 'height' : 'width'];
+    this.targetSize =
+      e.target[this.props.vertical ? 'offsetHeight' : 'offsetWidth'];
     this.setState(
       {
         dragging: true,
